@@ -1,0 +1,111 @@
+﻿@using System;
+@using System.Collections.Generic;
+@using System.Linq;
+@using System.Web;
+@using System.Web.Mvc;
+@using System.Data;
+@using System.Data.SqlClient;
+@using System.Configuration;
+@using System.Web.Configuration;
+@using System.IO;
+@using System.Drawing;
+@using System.Drawing.Imaging;
+
+@{
+
+    ViewBag.Title = "ListAllProducts";
+
+}
+
+<h2>List of All Products</h2>
+@{
+    string connDB = WebConfigurationManager.ConnectionStrings["connDB"].ConnectionString;
+    using (var db = new SqlConnection(connDB))
+    {
+        db.Open();
+        using (var cmd = db.CreateCommand())
+        {
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM ITMTBL";
+            using (var reader = cmd.ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    <table border="1">
+                        <thead>
+                            <tr>
+                                <th width="15%">
+                                    Item Number
+                                </th>
+                                <th width="10%">
+                                    Quantity
+                                </th>
+                                <th width="15%">
+                                    Price
+                                </th>
+                                <th>
+                                    Image
+                                </th>
+
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            @while (reader.Read())
+                            {
+                                <tr class="items">
+                                    <td class="itmnum">
+                                        @reader["ITMNUM"]
+                                    </td>
+                                    <td class="onhand">
+                                        @reader["QTY"]
+                                    </td>
+                                    <td class="price">
+                                        @reader["ITMPRICE"]
+                                    </td>
+                                    <td>
+                                        <center>
+                                            <img src="../Home/Image?filename=@HttpUtility.UrlEncode(reader["ITMIMG"]+"")" width="20%" /> <br />
+                                            @String.Format("{0:0.00}", reader["ITMNAME"]);<br />
+                                            <input type="number" class="txtqty" name="txtqty" step="1" /><br />
+                                            <input type="button" class="btnCart" name="btnsbmt" value="Add to Cart" />
+                                        </center><br /><br />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p>No Records Found!!!</p>
+                }
+            }
+        }
+    }
+}
+
+<script type="text/javascript" src="~/Scripts/jQuery/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+    $(".btnCart").each(function () {
+        $(this).click(function () {
+            var itmnum = $(this).closest('.items').find('.itmnum').html();
+            var onhand = $(this).closest('.items').find('.onhand').html();
+            var qty = $(this).closest('.items').find('.txtqty').val();
+
+            if (parseInt(qty) <= parseInt(onhand)) {
+                //alert(qty + " " + itmnum);
+                $.post("../Home/Cart", {
+                    itemNo: itmnum,
+                    qty : qty
+                }, function (res) {
+
+                });
+            } else {
+                alert('insufficient stocks');
+            }
+
+            //alert(itmnum);
+        });
+    });
+</script>
