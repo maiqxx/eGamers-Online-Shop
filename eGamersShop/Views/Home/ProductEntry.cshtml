@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "ProductEntry";
+}
+<html>
+<head>
+    <link rel="stylesheet" href="~/Content/w3/w3.css" />
+</head>
+<body>
+    <form id="productRecord" action="../Home/ProductEntry" method="post" enctype="multipart/form-data">
+        <h2>Product Entry</h2>
+        <div style="height:720px;">
+            <div style="float: left;width: 2%;padding: 10px;height: 700px;background-color:maroon;">
+            </div>
+            <div style="float: left;width: 35%;padding: 10px;height: 698px;background-color: #f2f2f2;border: 1px solid lightgrey;">
+                Product Number/Code <br />
+                <input type="text" id="txtCode" name="txtCode" /><br />
+                Product Name <br />
+                <input type="text" id="txtName" name="txtName" required /><br />
+                Product Description<br />
+                <input type="text" id="txtDesc" name="txtDesc" required style="width:180%;" /><br />
+                <br />
+                <input type="file" id="uploadImg" name="uploadImg"
+                       accept="image/png,image/jpeg,image/jpg,image/gif,image/bmp"
+                       onchange="getImagePreview()" required />
+                <div id="preview">
+
+                </div><br />
+                Price<br />
+                <input type="number" id="txtprice" name="txtprice" min="0" value="0" step=".01" /><br />
+                Quantity on Hand<br />
+                <input type="number" id="txtonhand" name="txtonhand" min="0" /><br />
+                Date<br />
+                <input type="text" id="datepicker" name="datepicker" value="@DateTime.Now.ToShortDateString()" />
+                <br /><br />
+
+                <input class="w3-button w3-blue" id="btnSaveProd" type="submit" value="Save" /><br />
+
+            </div>
+            <div style="float: left;width: 55%;padding: 10px;height: 700px;background-color:maroon;">
+            </div>
+        </div>
+    </form>
+    <script type="text/javascript" src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/myScripts/myScript.js"></script>
+
+</body>
+</html>
