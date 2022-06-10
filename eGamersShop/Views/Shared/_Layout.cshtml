@@ -26,6 +26,22 @@
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Product Entry", "ProductEntry", "Home")</li>
                 </ul>
+                <asp:LoginView runat="server" ViewStateMode="Disabled">
+                    <AnonymousTemplate>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a runat="server" href="~/Views/Account/CreateAccount.cshtml">Create Account</a></li>
+                            <li><a runat="server" href="~/userLogin.aspx>Login">Log in</a></li>
+                        </ul>
+                    </AnonymousTemplate>
+                    @*<LoggedInTemplate>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a runat="server" href="~/Account/Manage" title="Manage your account">Hello, <%: Context.User.Identity.GetUserName()  %>!</a></li>
+                            <li>
+                                <asp:LoginStatus runat="server" LogoutAction="Redirect" LogoutText="Log off" LogoutPageUrl="~/" OnLoggingOut="Unnamed_LoggingOut" />
+                            </li>
+                        </ul>
+                    </LoggedInTemplate>*@
+                </asp:LoginView>
             </div>
         </div>
     </div>
@@ -33,7 +49,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - My eGamer's Online App</p>
         </footer>
     </div>
 
