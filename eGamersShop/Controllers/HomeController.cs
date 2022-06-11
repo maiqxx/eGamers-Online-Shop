@@ -165,6 +165,17 @@ namespace eGamersShop.Controllers
             return new FilePathResult(filepath, mime);
         }
 
+        public ActionResult Cart()
+        {
+            var data = new List<object>();
+            var itmcode = Request["ITMNO"].Trim();
+            var price = Request["PRICE"].Trim();
+            var qty = Request["QTY"].Trim();
+
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+
 
     }
 }
