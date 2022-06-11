@@ -5,7 +5,7 @@
 
 <html>
 <head>
-
+    <link rel="stylesheet" href="~/Content/w3/w3.css" />
 </head>
 <body>
     <form id="registeration" runat="server" action="~/Views/Account/CreateAccount.cshtml" method="post" enctype="multipart/form-data">
@@ -14,29 +14,122 @@
         <br/>
 
         <div>
-            <table style="width:100%;">
-            <tr>
-                <td>First Name:</td>
-                <td>
-                    <input id="txtfname" name="txtfname" type="text" />
-                </td>
-                <td>&nbsp;</td>
-            </tr>
 
-            <tr>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
+            <table style="margin: auto; padding: 5px; width: 100%; line-height: inherit; display: inline-table;" align="middle" runat="server">
+                <tr runat="server">
+                    <td runat="server" style="padding: 10px; width: 745px; height: 44px;" class="text-right">First Name </td>
+                    <td runat="server" class="modal-sm" style="padding: 10px; width: 233px; height: 44px;">
+                        <input id="txtFname" name="txtFname" type="text" placeholder="First Name" />
+                    </td>
+                    <td runat="server" style="padding: 10px; width: 666px; height: 44px;">
+                        @*<asp:RequiredFieldValidator ID="rfvLname" runat="server" ErrorMessage="* Lastname is Required" ControlToValidate="txtLname" style="color: #FF0000"></asp:RequiredFieldValidator>*@
+                    </td>
+                    <td runat="server" style="padding: 10px; height: 44px;">
+                    </td>
+                </tr>
 
-            <tr>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-            
+                <tr runat="server">
+                    <td runat="server" style="padding: 10px; width: 745px" class="text-right">Last Name </td>
+                    <td runat="server" style="padding: 10px; width: 233px;" class="modal-sm">
+                        <input id="txtLname" name="txtLname" type="text" placeholder="Last Name" />
+                    </td>
+                    <td runat="server" style="padding: 10px; width: 666px;">
+                        @*<asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtFname" ErrorMessage="* Firstname is Required" style="color: #FF0000"></asp:RequiredFieldValidator>*@
+                    </td>
+                    <td runat="server" style="padding: 10px;">
+                        &nbsp;
+                    </td>
+                </tr>
+
+
+                <tr runat="server">
+                    <td runat="server" style="padding: 10px; width: 745px; " class="text-right">Email Address</td>
+                    <td runat="server" class="modal-sm" style="padding: 10px; width: 233px;">
+                        <input id="txtEmail" name="txtEmail" type="text" placeholder="Email Address" />
+                    </td>
+                    <td runat="server" style="padding: 10px; width: 666px;">
+                        &nbsp;
+                    </td>
+                    <td runat="server" style="padding: 10px;">
+                        &nbsp;
+                    </td>
+                </tr>
+
+                <tr runat="server">
+                    <td runat="server" style="padding: 10px; width: 745px" class="text-right">Birth Date</td>
+                    <td runat="server" class="modal-sm" style="padding: 10px; width: 233px;">
+                        <input id="txtBdate" name="txtBdate" type="date" placeholder="Birth Date" />
+                    </td>
+                    <td runat="server" style="padding: 10px; width: 666px;">&nbsp;</td>
+                    <td runat="server" style="padding: 10px">&nbsp;</td>
+                </tr>
+
+                <tr runat="server">
+                    <td runat="server" style="padding: 10px; width: 745px; " class="text-right">Username</td>
+                    <td runat="server" class="modal-sm" style="padding: 10px; width: 233px;">
+                        <input id="txtUsername" name="txtUsername" type="text" placeholder="Username"/>
+                    </td>
+                    <td runat="server" style="padding: 10px; width: 666px;">
+                        &nbsp;
+                    </td>
+                    <td runat="server" style="padding: 10px;">&nbsp;</td>
+                </tr>
+
+                <tr runat="server">
+                    <td runat="server" style="padding: 10px; width: 745px; height: 44px;" class="text-right">Password</td>
+                    <td runat="server" class="modal-sm" style="padding: 10px; width: 233px; height: 44px;">
+                        <input id="txtPswd" name="txtPswd" type="password" placeholder="Password" />
+                        @*<asp:TextBox ID="txtpwd" runat="server" TextMode="Password" class="w3-input w3-border w3-round" ValidationGroup="RegisterCheck" Width="255px" placeholder="Password" Text=""></asp:TextBox>*@
+                    </td>
+                    <td runat="server" style="padding: 10px; width: 666px; height: 44px;" colspan="1">
+                        &nbsp;
+                    </td>
+                    <td runat="server" style="padding: 10px; height: 44px;">
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtpwd" ValidationGroup="RegisterCheck"></asp:RequiredFieldValidator>
+                    </td>
+                </tr>
+
+                <tr runat="server">
+                    <td runat="server" style="padding: 10px; width: 745px; height: 44px;" class="text-right">Confirm Password</td>
+                    <td runat="server" class="modal-sm" style="padding: 10px; width: 233px; height: 44px;">
+                        <input id="txtConpswd" name="txtConpswd" type="password" placeholder="Confirm Password" />
+                        @*<asp:TextBox ID="txtcpwd" runat="server" TextMode="Password" Width="255px" placeholder="Confirm Password" Text="" class="w3-input w3-border w3-round"></asp:TextBox>*@
+                    </td>
+                    <td runat="server" style="padding: 10px; width: 666px; height: 44px;">
+                        <asp:CompareValidator ID="cvcpwd" runat="server" ErrorMessage="* Password did not match!" ControlToCompare="txtpwd" ControlToValidate="txtcpwd" style="color: #FF0000"></asp:CompareValidator>
+                    </td>
+                    <td runat="server" style="padding: 10px; height: 44px;">
+                    </td>
+                </tr>
+
+                @*<tr runat="server">
+                    <td runat="server" style="height: 5px;" class="text-right">&nbsp;</td>
+                    <td runat="server" class="modal-sm" style="height: 5px;">
+                        <asp:Label ID="lblWarning" runat="server" style="color: #FF0000; font-size: small" Text="Label" Visible="False"></asp:Label>
+                    </td>
+                    <td runat="server" style="height: 5px;">
+                        &nbsp;
+                    </td>
+                    <td runat="server" style="height: 5px;">
+                        &nbsp;
+                    </td>
+                </tr>*@
+
+                <tr runat="server">
+                    <td runat="server" style="padding: 10px; width: 745px">
+                        &nbsp;
+                    </td>
+                    <td runat="server" class="modal-sm" style="padding: 10px; width: 233px;">
+                        <input id="btnRegister" type="button" value="Register" />
+                        @*<asp:Button ID="btn" runat="server" Text="Submit" class="w3-button w3-blue w3-round" OnClick="btn_Click" />*@
+
+                    <td runat="server" style="padding: 10px; width: 666px;">&nbsp;</td>
+                    <td runat="server" style="padding: 10px">&nbsp;</td>
+                </tr>
             </table>
-            
+
+
+
 
 
 
