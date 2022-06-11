@@ -139,5 +139,32 @@ namespace eGamersShop.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public FileResult Image(string filename)
+        {
+            var folder = "";
+            var filepath = "";
+
+            try
+            {
+                folder = "C:\\Uploads";
+                filepath = Path.Combine(folder, filename);
+                if (!System.IO.File.Exists(filepath))
+                {
+                    //image not found here
+                }
+            }
+            catch (Exception) { 
+            
+                //throw;
+            }
+
+            var mime = System.Web.MimeMapping.GetMimeMapping(Path.GetFileName(filepath));
+            Response.Headers.Add("Content-Disposition", "Inline");
+
+            return new FilePathResult(filepath, mime);
+        }
+
+
     }
 }
