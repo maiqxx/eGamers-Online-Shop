@@ -32,19 +32,22 @@
             {
                 if (reader.HasRows)
                 {
-                    <table border="1">
+                    <table style="text-align:center; border: 5px outset maroon" border="1" class="w3-table-all w3-hoverable">
                         <thead>
                             <tr>
-                                <th width="15%">
+                                <th width="15%" style="text-align:center; ">
                                     Item Number
                                 </th>
-                                <th width="10%">
+
+                                <th width="10%" style="text-align:center; ">
                                     Quantity
                                 </th>
-                                <th width="15%">
+
+                                <th width="15%" style="text-align:center;">
                                     Price
                                 </th>
-                                <th>
+
+                                <th style="text-align:center;">
                                     Image
                                 </th>
 
@@ -54,26 +57,26 @@
                         <tbody>
                             @while (reader.Read())
                             {
-                                <tr class="items">
-                                    <td class="itmnum">
+                                <tr class="items w3-padding-64">
+                                    <td class="itmnum w3-padding-64">
                                         @reader["ITMNUM"]
                                     </td>
-                                    <td class="onhand">
+                                    <td class="onhand w3-padding-64 w3-center class">
                                         @reader["ITMONHAND"]
                                     </td>
-                                    <td class="price">
+                                    <td class="price w3-padding-64 w3-center class">
                                         @reader["ITMPRICE"]
                                     </td>
-                                    <td>
+                                    <td class="itmimage">
                                         <center>
                                             <img src="../Home/Image?filename=@HttpUtility.UrlEncode(reader["ITMIMG"] + "")" width="20%" /> <br />
-                                            @String.Format("{0:0.00}", reader["ITMNAME"]);<br />
+                                            @String.Format("{0:0.00}", reader["ITMNAME"])<br />
                                             <input type="number" class="txtqty" name="txtqty" step="1" /><br />
                                             <input type="button" class="btnCart" name="btnsbmt" value="Add to Cart" />
                                         </center><br /><br />
                                     </td>
                                 </tr>
-                             }
+                            }
                         </tbody>
                     </table>
                 }
@@ -87,12 +90,12 @@
 
         }
     }
-    
+
 
 }
 
 
-        
+
 
 <script type="text/javascript" src="~/Scripts/jQuery/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
