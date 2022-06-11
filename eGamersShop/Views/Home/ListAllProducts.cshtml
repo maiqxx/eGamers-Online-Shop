@@ -32,9 +32,9 @@
             {
                 if (reader.HasRows)
                 {
-                    <table style="text-align:center; border: 5px outset maroon" border="1" class="w3-table-all w3-hoverable">
+                    <table style="text-align:center; border: 5px maroon" border="1" class="w3-table-all w3-light-grey">
                         <thead>
-                            <tr>
+                            <tr style="background-color: maroon; color: white">
                                 <th width="15%" style="text-align:center; ">
                                     Item Number
                                 </th>
@@ -67,11 +67,11 @@
                                     <td class="price w3-padding-64 w3-center class">
                                         @reader["ITMPRICE"]
                                     </td>
-                                    <td class="itmimage">
+                                    <td class="itmimage" style="padding-top:3em">
                                         <center>
                                             <img src="../Home/Image?filename=@HttpUtility.UrlEncode(reader["ITMIMG"] + "")" width="20%" /> <br />
                                             @String.Format("{0:0.00}", reader["ITMNAME"])<br />
-                                            <input type="number" class="txtqty" name="txtqty" step="1" /><br />
+                                            <input type="number" class="txtqty" name="txtqty" step="1" /><br /><br/>
                                             <input type="button" class="btnCart" name="btnsbmt" value="Add to Cart" />
                                         </center><br /><br />
                                     </td>
@@ -82,7 +82,7 @@
                 }
                 else
                 {
-                    <p>No Records Found!!!</p>
+                    <p>No Records Found!</p>
 
                 }
 
@@ -110,7 +110,8 @@
                 //alert(qty + " " + itmnum);
                 $.post("../Home/Cart", {
                     itemNo: itmnum,
-                    qty: qty
+                    qty: qty,
+                    price: price
                 }, function (res) {
 
                 });

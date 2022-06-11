@@ -62,6 +62,7 @@ namespace eGamersShop.Controllers
             var itmonhand = Request["txtonhand"];
             var date = Request["datepicker"];
 
+
             if (uploadImg != null)
             {
                 try
@@ -171,6 +172,10 @@ namespace eGamersShop.Controllers
             var itmcode = Request["ITMNO"].Trim();
             var price = Request["PRICE"].Trim();
             var qty = Request["QTY"].Trim();
+
+            //add here the functionalities
+            //add database for cart/orders
+
 
             return Json(data, JsonRequestBehavior.AllowGet);
         }
