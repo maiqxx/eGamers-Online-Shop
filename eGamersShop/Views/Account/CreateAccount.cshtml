@@ -8,21 +8,21 @@
     <link rel="stylesheet" href="~/Content/w3/w3.css" />
 </head>
 <body>
-    <form id="registeration" runat="server" action="~/Views/Account/CreateAccount.cshtml" method="post" enctype="multipart/form-data">
+    <form id="registeration" runat="server" action="../Account/CreateAccount" method="post" enctype="multipart/form-data">
         <h2>Create Account</h2>
-        <hr/>
-        <br/>
+        <hr />
+        <br />
 
         <div>
 
-            <table style="margin: auto; padding: 5px; width: 100%; line-height: inherit; display: inline-table;" align="middle" runat="server">
+            <table style="margin: auto; padding: 5px; width: 100%; line-height: inherit; display: inline-table;" align="center" runat="server">
                 <tr runat="server">
                     <td runat="server" style="padding: 10px; width: 745px; height: 44px;" class="text-right">Last Name </td>
                     <td runat="server" class="modal-sm" style="padding: 10px; width: 233px; height: 44px;">
                         <input id="txtLname" name="txtLname" type="text" placeholder="Last Name" />
                     </td>
                     <td runat="server" style="padding: 10px; width: 666px; height: 44px;">
-                        <asp:RequiredFieldValidator ID="rfvLname" runat="server" ErrorMessage="* Lastname is Required" ControlToValidate="txtLname" style="color: #FF0000"></asp:RequiredFieldValidator>
+                        @*<asp:RequiredFieldValidator ID="rfvLname" runat="server" ErrorMessage="* Lastname is Required" ControlToValidate="txtLname" style="color: #FF0000"></asp:RequiredFieldValidator>*@
                     </td>
                     <td runat="server" style="padding: 10px; height: 44px;">
                     </td>
@@ -138,7 +138,7 @@
                         &nbsp;
                     </td>
                     <td runat="server" style="padding: 10px; height: 44px;">
-                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtpwd" ValidationGroup="RegisterCheck"></asp:RequiredFieldValidator>
+                        <asp:RequiredFieldValidator ID="rfvRole" runat="server" ControlToValidate="txtpwd" ValidationGroup="RegisterCheck"></asp:RequiredFieldValidator>
                     </td>
                 </tr>
 
@@ -147,20 +147,20 @@
                         &nbsp;
                     </td>
                     <td runat="server" class="modal-sm" style="padding: 10px; width: 233px;">
-                        <input id="btnRegister" name="btnRegister" type="button" value="Register" />
-                        @*<asp:Button ID="btn" runat="server" Text="Submit" class="w3-button w3-blue w3-round" OnClick="btn_Click" />*@
-
+                        <input id="btnRegister" type="submit" value="Register" />
                     <td runat="server" style="padding: 10px; width: 666px;">&nbsp;</td>
                     <td runat="server" style="padding: 10px">&nbsp;</td>
                 </tr>
             </table>
 
 
-
-
         </div>
 
     </form>
+
+    <script type="text/javascript" src="~/Scripts/jquery-3.6.0.min.js"></script>
+    
+
 </body>
 
 </html>

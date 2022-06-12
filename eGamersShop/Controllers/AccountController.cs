@@ -8,12 +8,20 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Web.Configuration;
 using System.IO;
+using System.Drawing;
+using System.Drawing.Imaging;
+ 
 
 namespace eGamersShop.Controllers
 {
     public class AccountController : Controller
     {
         string connDB = WebConfigurationManager.ConnectionStrings["connDB"].ConnectionString;
+
+        public ActionResult CreateAccount()
+        {
+            return View();
+        }
 
         [HttpPost]
         public ActionResult CreateAccount(FormCollection collection)
@@ -28,46 +36,55 @@ namespace eGamersShop.Controllers
             var password = Request["txtPswd"];
             var role = Request["radRole"];
 
-            using (var db = new SqlConnection(connDB))
+            try
             {
-                db.Open();
-                using(var cmd = db.CreateCommand())
+                using (var db = new SqlConnection(connDB))
                 {
-                    cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "INSERT INTO USERTBL (LASTNAME, FIRSTNAME, MIDNAME, ADDRESS, CONTACTNO, EMAIL, USERNAME, PASSWORD, ROLE)"
-                        + "VALUES ("
-                        + "@lname,"
-                        + "@fname,"
-                        + "@midname,"
-                        + "@address,"
-                        + "@contactnum,"
-                        + "@email,"
-                        + "@uname,"
-                        + "@pswd,"
-                        + "@role)";
-                    cmd.Parameters.AddWithValue("@lname", lastname);
-                    cmd.Parameters.AddWithValue("@fname", firstname);
-                    cmd.Parameters.AddWithValue("@midname", midname);
-                    cmd.Parameters.AddWithValue("@address", address);
-                    cmd.Parameters.AddWithValue("@contactnum", contactNum);
-                    cmd.Parameters.AddWithValue("@email", email);
-                    cmd.Parameters.AddWithValue("@uname", username);
-                    cmd.Parameters.AddWithValue("@pswd", password);
-                    cmd.Parameters.AddWithValue("@role", role);
-                    var ctr = cmd.ExecuteNonQuery();
-                    if (ctr >= 1)
+                    db.Open();
+                    using (var cmd = db.CreateCommand())
                     {
-                        Response.Write("<script>alert('You've successfully created your account!')</script>");
+                        cmd.CommandType = CommandType.Text;
+                        cmd.CommandText = "INSERT INTO USERTBL (LASTNAME, FIRSTNAME, MIDNAME, ADDRESS, CONTACTNO, EMAIL, USERNAME, PASSWORD, ROLE)"
+                            + "VALUES ("
+                            + "@LNAME,"
+                            + "@FNAME,"
+                            + "@MNAME,"
+                            + "@ADDRS,"
+                            + "@CONTACTNUM,"
+                            + "@EM,"
+                            + "@UNAME,"
+                            + "@PSWD,"
+                            + "@USER)";
+                        cmd.Parameters.AddWithValue("@LNAME", lastname);
+                        cmd.Parameters.AddWithValue("@FNAME", firstname);
+                        cmd.Parameters.AddWithValue("@MNAME", midname);
+                        cmd.Parameters.AddWithValue("@ADDRS", address);
+                        cmd.Parameters.AddWithValue("@CONTACTNUM", contactNum);
+                        cmd.Parameters.AddWithValue("@EM", email);
+                        cmd.Parameters.AddWithValue("@UNAME", username);
+                        cmd.Parameters.AddWithValue("@PSWD", password);
+                        cmd.Parameters.AddWithValue("@USER", role);
+                        var ctr = cmd.ExecuteNonQuery();
+                        if (ctr >= 1)
+                        {
+                            Response.Write("<script>alert('You've successfully created your account!')</script>");
+                        }
+                        else
+                            Response.Write("<script>alert('Please try again...')</script>");
                     }
-                    else
-                        Response.Write("<script>alert('Please try again...')</script>");
-                
                 }
             }
-            
+            catch (Exception ex)
+            {
+                //naay error if kni ang maexcecute
+
+                Response.Write("<script>alert('Something went wrong...')</script>");
+                
+            } 
                 return View();
         }
 
         
+
     }
 }
