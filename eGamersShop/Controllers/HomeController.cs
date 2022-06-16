@@ -52,6 +52,12 @@ namespace eGamersShop.Controllers
             return View();
         }
 
+        public ActionResult CreateAccount()
+        {
+            return View();
+        }
+
+        //Product entry method
         [HttpPost]
         public ActionResult ProductEntry(FormCollection collection, HttpPostedFileBase uploadImg)
         {
@@ -116,6 +122,7 @@ namespace eGamersShop.Controllers
             return View();
         }
 
+        //Method to make an incremental item code during product entry
         public ActionResult getItemCode()
         {
             var data = new List<object>();
@@ -140,6 +147,7 @@ namespace eGamersShop.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
+        //Method to display or show the image that are saved in C:\\Uploads
         [HttpGet]
         public FileResult Image(string filename)
         {
@@ -166,6 +174,7 @@ namespace eGamersShop.Controllers
             return new FilePathResult(filepath, mime);
         }
 
+        //Method/button for add to cart from ListAllProducts.cshtml
         public ActionResult Cart()
         {
             var data = new List<object>();
@@ -178,6 +187,69 @@ namespace eGamersShop.Controllers
 
 
             return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        //Method for creating account of users to be saved in DB
+        [HttpPost]
+        public ActionResult CreateAccount(FormCollection collection)
+        {
+            string lastname = Convert.ToString(collection["txtLastname"]);
+            string firstname = Convert.ToString(collection["txtFirstname"]);
+            string midname = Convert.ToString(collection["txtMidname"]);
+            string address = Convert.ToString(collection["txtAddress"]);
+            string contactNum = Convert.ToString(collection["txtPhoneNum"]);
+            string email = Convert.ToString(collection["txtEmail"]);
+            string username = Convert.ToString(collection["txtUsername"]);
+            string password = Convert.ToString(collection["txtPassword"]);
+            string role = Convert.ToString(collection["radRole"]);
+
+            try
+            {
+                using (var db = new SqlConnection(connDB))
+                {
+                    db.Open();
+                    using (var cmd = db.CreateCommand())
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.CommandText = "INSERT INTO USERTBL (LASTNAME, FIRSTNAME, MIDNAME, ADDRESS, CONTACTNO, EMAIL, USERNAME, PASSWORD, ROLE)"
+                            + "VALUES ("
+                            + "@LNAME,"
+                            + "@FNAME,"
+                            + "@MNAME,"
+                            + "@ADDRS,"
+                            + "@CONTACTNUM,"
+                            + "@EM,"
+                            + "@UNAME,"
+                            + "@PSWD,"
+                            + "@USER)";
+                        cmd.Parameters.AddWithValue("@LNAME", lastname);
+                        cmd.Parameters.AddWithValue("@FNAME", firstname);
+                        cmd.Parameters.AddWithValue("@MNAME", midname);
+                        cmd.Parameters.AddWithValue("@ADDRS", address);
+                        cmd.Parameters.AddWithValue("@CONTACTNUM", contactNum);
+                        cmd.Parameters.AddWithValue("@EM", email);
+                        cmd.Parameters.AddWithValue("@UNAME", username);
+                        cmd.Parameters.AddWithValue("@PSWD", password);
+                        cmd.Parameters.AddWithValue("@USER", role);
+                        var ctr = cmd.ExecuteNonQuery();
+                        if (ctr >= 1)
+                        {
+                            Response.Write("<script>alert('You've successfully created your account!')</script>");
+                            
+                        }
+                        else
+                            Response.Write("<script>alert('Please try again...')</script>");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //naay error if kni ang maexcecute
+
+                Response.Write("<script>alert('Something went wrong...')</script>");
+
+            }
+            return View();
         }
 
 
