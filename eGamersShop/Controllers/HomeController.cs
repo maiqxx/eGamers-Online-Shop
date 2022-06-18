@@ -198,6 +198,79 @@ namespace eGamersShop.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
+
+        public ActionResult SearchItem()
+        {
+            var data = new List<object>();
+            var itmcode = Request["itemcode"];
+            using (var db = new SqlConnection(connDB))
+            {
+                db.Open();
+                using (var cmd = db.CreateCommand())
+                {
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = "SELECT * FROM ITMTBL WHERE ITMNUM='" + itmcode + "'";
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        data.Add(new
+                        {
+                            mess = 0,
+                            desc = reader["itmname"].ToString(),
+                            price = reader["itmprice"].ToString(),
+                        });
+                    }
+                    else
+                    {
+                        data.Add(new
+                        {
+                            mess = 1,
+                        });
+                    }
+                }
+            }
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult UpdateItem()
+        {
+            var data = new List<object>();
+
+            var itmcode = Request["itemcode"];
+            var itmdesc = Request["itemdesc"];
+            var itmprice = Request["itemprice"];
+
+            using (var db = new SqlConnection(connDB))
+            {
+                db.Open();
+                using (var cmd = db.CreateCommand())
+                {
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = "UPDATE ITMTBL SET "
+                        + " ITMNAME ='" + itmdesc + "',"
+                        + " ITMPRICE ='" + itmprice + "'"
+                        + " WHERE ITMNUM='" + itmcode + "'";
+                    var ctr = cmd.ExecuteNonQuery();
+                    if (ctr > 0)
+                    {
+                        data.Add(new
+                        {
+                            mess = 0
+                        });
+                    }
+                    else
+                    {
+                        data.Add(new
+                        {
+                            mess = 1
+                        });
+                    }
+                }
+            }
+
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
         //Method for creating account of users to be saved in DB
         [HttpPost]
         public ActionResult CreateAccount(FormCollection collection)
