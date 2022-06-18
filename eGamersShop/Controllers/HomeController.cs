@@ -10,6 +10,8 @@ using System.Web.Configuration;
 using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Web.UI.HtmlControls;
+
 
 namespace eGamersShop.Controllers
 {
@@ -21,6 +23,7 @@ namespace eGamersShop.Controllers
         public ActionResult Index()
         {
             return View();
+
         }
 
         public ActionResult About()
@@ -53,6 +56,12 @@ namespace eGamersShop.Controllers
         }
 
         public ActionResult CreateAccount()
+        {
+            return View();
+        }
+
+
+        public ActionResult Role()
         {
             return View();
         }
@@ -193,15 +202,23 @@ namespace eGamersShop.Controllers
         [HttpPost]
         public ActionResult CreateAccount(FormCollection collection)
         {
-            string lastname = Convert.ToString(collection["txtLastname"]);
-            string firstname = Convert.ToString(collection["txtFirstname"]);
-            string midname = Convert.ToString(collection["txtMidname"]);
-            string address = Convert.ToString(collection["txtAddress"]);
-            string contactNum = Convert.ToString(collection["txtPhoneNum"]);
-            string email = Convert.ToString(collection["txtEmail"]);
-            string username = Convert.ToString(collection["txtUsername"]);
-            string password = Convert.ToString(collection["txtPassword"]);
-            string role = Convert.ToString(collection["radRole"]);
+            var lastname = Convert.ToString(collection["txtLastname"]);
+            var firstname = Convert.ToString(collection["txtFirstname"]);
+            var midname = Convert.ToString(collection["txtMidname"]);
+            var address = Convert.ToString(collection["txtAddress"]);
+            var contactNum = Convert.ToString(collection["txtPhoneNum"]);
+            var email = Convert.ToString(collection["txtEmail"]);
+            var username = Convert.ToString(collection["txtUsername"]);
+            var password = Convert.ToString(collection["txtPassword"]);
+            var role = Convert.ToString(collection["radRole"]);
+
+            //role must have condition
+            //code here
+
+            //if (ddlRole.SelectedValue == "Customer")
+            //{
+
+            //}
 
             try
             {
@@ -213,28 +230,29 @@ namespace eGamersShop.Controllers
                         cmd.CommandType = CommandType.Text;
                         cmd.CommandText = "INSERT INTO USERTBL (LASTNAME, FIRSTNAME, MIDNAME, ADDRESS, CONTACTNO, EMAIL, USERNAME, PASSWORD, ROLE)"
                             + "VALUES ("
-                            + "@LNAME,"
-                            + "@FNAME,"
-                            + "@MNAME,"
-                            + "@ADDRS,"
-                            + "@CONTACTNUM,"
-                            + "@EM,"
-                            + "@UNAME,"
-                            + "@PSWD,"
-                            + "@USER)";
-                        cmd.Parameters.AddWithValue("@LNAME", lastname);
-                        cmd.Parameters.AddWithValue("@FNAME", firstname);
-                        cmd.Parameters.AddWithValue("@MNAME", midname);
-                        cmd.Parameters.AddWithValue("@ADDRS", address);
-                        cmd.Parameters.AddWithValue("@CONTACTNUM", contactNum);
-                        cmd.Parameters.AddWithValue("@EM", email);
-                        cmd.Parameters.AddWithValue("@UNAME", username);
-                        cmd.Parameters.AddWithValue("@PSWD", password);
-                        cmd.Parameters.AddWithValue("@USER", role);
+                            + "@lname,"
+                            + "@fname,"
+                            + "@mname,"
+                            + "@address,"
+                            + "@contactnum,"
+                            + "@email,"
+                            + "@uname,"
+                            + "@pswrd,"
+                            + "@role)";
+                        cmd.Parameters.AddWithValue("@lname", lastname);
+                        cmd.Parameters.AddWithValue("@fname", firstname);
+                        cmd.Parameters.AddWithValue("@mname", midname);
+                        cmd.Parameters.AddWithValue("@address", address);
+                        cmd.Parameters.AddWithValue("@contactnum", contactNum);
+                        cmd.Parameters.AddWithValue("@email", email);
+                        cmd.Parameters.AddWithValue("@uname", username);
+                        cmd.Parameters.AddWithValue("@pswrd", password);
+                        cmd.Parameters.AddWithValue("@role", role);
                         var ctr = cmd.ExecuteNonQuery();
                         if (ctr >= 1)
                         {
                             Response.Write("<script>alert('You've successfully created your account!')</script>");
+                            Response.Redirect("Index");
                             
                         }
                         else
@@ -247,6 +265,7 @@ namespace eGamersShop.Controllers
                 //naay error if kni ang maexcecute
 
                 Response.Write("<script>alert('Something went wrong...')</script>");
+                Response.Write(ex);
 
             }
             return View();
