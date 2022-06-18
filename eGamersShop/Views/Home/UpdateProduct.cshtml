@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "UpdateProduct";
+}
+
+<h2>UpdateProduct</h2>
+
+<html>
+<body>
+    Product Code<br />
+    <input type="text" id="itmcde" name="itmcde" required />&nbsp;&nbsp;
+    <input type="button" id="btnSearch" name="btnSearch" value="Search" />
+    <br />
+    Product  Description <br />
+    <input type="text" id="itmdesc" name="itmdesc" required /><br /><br />
+    Product  Price <br />
+    <input type="text" id="itmprice" name="itmprice" required /><br /><br />
+    <input type="button" id="btnEdit" name="btnEdit" value="Edit" />
+    <input type="button" id="btnUpdate" name="btnUpdate" value="Update" />
+
+    <script type="text/javascript" src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+    <script src="~/Scripts/jQuery/myScripts/UpdateItem.js"></script>
+    <script type="text/javascript" src="~/Scripts/jQuery/myScripts/myScript.js?data=@DateTime.Now.ToString("mmss")"></script>
+
+</body>
+</html>

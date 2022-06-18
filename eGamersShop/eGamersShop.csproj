@@ -157,6 +157,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\myScripts\CreateAccountScript.js" />
     <Content Include="Scripts\myScripts\myScript.js" />
+    <Content Include="Scripts\myScripts\UpdateItem.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -174,6 +175,7 @@
     <Content Include="Views\Home\ProductEntry.cshtml" />
     <Content Include="Views\Home\ListAllProducts.cshtml" />
     <Content Include="Views\Home\CreateAccount.cshtml" />
+    <Content Include="Views\Home\UpdateProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />

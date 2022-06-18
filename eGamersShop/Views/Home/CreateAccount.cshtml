@@ -77,13 +77,16 @@
                         <td runat="server" style="text-align: right; width: 170px ">Sign Up As</td>
 
                         <td runat="server">
+                            @*@Html.DropDownListFor(m => m.Role, new List<SelectListItem>
+                            { new SelectListItem{Text = "Customer", Value="C"},
+                            new SelectListItem{Text = "Admin", Value="A"}}, "Select a Role");*@
+
+
                             <select id="ddlRole" name="ddlRole" runat="server" required style="width: 300px; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; margin-top: 6px; margin-bottom: 10px;">
-                            <option value="0">Choose a Role:</option>
-                            <option value="Customer">Customer</option>
-                            <option value="Admin">Admin</option>
+                                <option value="">Choose a Role:</option>
+                                <option value="Customer">Customer</option>
+                                <option value="Admin">Admin</option>
                             </select>
-
-
                         </td>
                         <td runat="server">&nbsp;</td>
                     </tr>

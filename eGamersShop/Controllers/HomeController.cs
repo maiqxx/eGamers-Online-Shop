@@ -61,7 +61,7 @@ namespace eGamersShop.Controllers
         }
 
 
-        public ActionResult Role()
+        public ActionResult UpdateProduct()
         {
             return View();
         }
@@ -215,7 +215,7 @@ namespace eGamersShop.Controllers
             //role must have condition
             //code here
 
-            //if (ddlRole.SelectedValue == "Customer")
+            //if (ddlRole.SelectedValue.)
             //{
 
             //}
