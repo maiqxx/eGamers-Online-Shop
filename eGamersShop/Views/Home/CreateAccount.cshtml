@@ -22,6 +22,7 @@
             <div  runat="server" class="jam-container2">
 
                 <table style="width:100%;" runat="server">
+                    
                     <tr runat="server">
                         <td runat="server" style="text-align:right; width:170px">Last Name</td>
                         <td runat="server"><input runat="server" id="txtLastname" name="txtLastname" type="text" required /></td>
@@ -82,7 +83,7 @@
                             new SelectListItem{Text = "Admin", Value="A"}}, "Select a Role");*@
 
 
-                            <select id="ddlRole" name="ddlRole" runat="server" required style="width: 300px; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; margin-top: 6px; margin-bottom: 10px;">
+                            <select id="ddlRole" name="ddlRole" class="userRole" runat="server" required style="width: 300px; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; margin-top: 6px; margin-bottom: 10px;">
                                 <option value="">Choose a Role:</option>
                                 <option value="Customer">Customer</option>
                                 <option value="Admin">Admin</option>
@@ -112,6 +113,65 @@
 
         <script type="text/javascript" src="~/Scripts/myScripts/CreateAccountScript.js"></script>
         <script type="text/javascript" src="~/Scripts/jquery-3.6.0.min.js"></script>
+        <script>
+            var myInput = document.getElementById("psw");
+            var letter = document.getElementById("letter");
+            var capital = document.getElementById("capital");
+            var number = document.getElementById("number");
+            var length = document.getElementById("length");
+
+            // When the user clicks on the password field, show the message box
+            myInput.onfocus = function () {
+                document.getElementById("message").style.display = "block";
+            }
+
+            // When the user clicks outside of the password field, hide the message box
+            myInput.onblur = function () {
+                document.getElementById("message").style.display = "none";
+            }
+
+            // When the user starts to type something inside the password field
+            myInput.onkeyup = function () {
+                // Validate lowercase letters
+                var lowerCaseLetters = /[a-z]/g;
+                if (myInput.value.match(lowerCaseLetters)) {
+                    letter.classList.remove("invalid");
+                    letter.classList.add("valid");
+                } else {
+                    letter.classList.remove("valid");
+                    letter.classList.add("invalid");
+                }
+
+                // Validate capital letters
+                var upperCaseLetters = /[A-Z]/g;
+                if (myInput.value.match(upperCaseLetters)) {
+                    capital.classList.remove("invalid");
+                    capital.classList.add("valid");
+                } else {
+                    capital.classList.remove("valid");
+                    capital.classList.add("invalid");
+                }
+
+                // Validate numbers
+                var numbers = /[0-9]/g;
+                if (myInput.value.match(numbers)) {
+                    number.classList.remove("invalid");
+                    number.classList.add("valid");
+                } else {
+                    number.classList.remove("valid");
+                    number.classList.add("invalid");
+                }
+
+                // Validate length
+                if (myInput.value.length >= 8) {
+                    length.classList.remove("invalid");
+                    length.classList.add("valid");
+                } else {
+                    length.classList.remove("valid");
+                    length.classList.add("invalid");
+                }
+            }
+        </script>
 
     </body>
 

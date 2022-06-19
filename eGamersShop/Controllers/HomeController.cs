@@ -124,7 +124,6 @@ namespace eGamersShop.Controllers
                 catch (Exception ex)
                 {
                     Response.Write("<script>alert('Something went wrong...')</script>");
-                    Response.Write(ex);
                 }
             }
 
@@ -275,23 +274,15 @@ namespace eGamersShop.Controllers
         [HttpPost]
         public ActionResult CreateAccount(FormCollection collection)
         {
-            var lastname = Convert.ToString(collection["txtLastname"]);
-            var firstname = Convert.ToString(collection["txtFirstname"]);
-            var midname = Convert.ToString(collection["txtMidname"]);
-            var address = Convert.ToString(collection["txtAddress"]);
-            var contactNum = Convert.ToString(collection["txtPhoneNum"]);
-            var email = Convert.ToString(collection["txtEmail"]);
-            var username = Convert.ToString(collection["txtUsername"]);
-            var password = Convert.ToString(collection["txtPassword"]);
-            var role = Convert.ToString(collection["radRole"]);
-
-            //role must have condition
-            //code here
-
-            //if (ddlRole.SelectedValue.)
-            //{
-
-            //}
+            var lastname = Request["txtLastname"];
+            var firstname = Request["txtFirstname"];
+            var midname = Request["txtMidname"];
+            var address = Request["txtAddress"];
+            var contactNum = Request["txtPhoneNum"];
+            var email = Request["txtEmail"];
+            var username = Request["txtUsername"];
+            var password = Request["txtPassword"];
+            var role = Convert.ToString(collection["role"]);
 
             try
             {
@@ -342,6 +333,41 @@ namespace eGamersShop.Controllers
 
             }
             return View();
+        }
+
+        public ActionResult getSelectedRole()
+        {
+            var data = new List<object>();
+            var role = "";
+
+            using (var db = new SqlConnection(connDB))
+            {
+                db.Open();
+                using (var cmd = db.CreateCommand())
+                {
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = "SELECT ROLE as 'USERROLE' FROM USERTBL";
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        data.Add(new
+                        {
+                            mess = 0,
+                            role = reader["USERROLE"].ToString(),
+                        });
+                    }
+                    else
+                    {
+                        data.Add(new
+                        {
+                            mess = 1,
+                        });
+                    }
+
+                }
+            }
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
 
 

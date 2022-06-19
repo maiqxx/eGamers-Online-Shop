@@ -31,7 +31,7 @@ table td{
 }
 
 /* Style the container for inputs */
-.jam-container2{
+.jam-container2 {
     /*background-color: #f1f1f1;*/
     padding: 10px;
     align-content: center;
@@ -40,6 +40,7 @@ table td{
     height: 1100px;
     background-color: #f2f2f2;
     border: 1px solid lightgrey;
+}
 
     /* The message box is shown when the user clicks on the password field */
     #message {
@@ -49,8 +50,9 @@ table td{
     position: relative;
     padding: 40px;
     margin-top: 10px;
+    }
     
-}
+
 
     #message p {
         padding: 10px 35px;
