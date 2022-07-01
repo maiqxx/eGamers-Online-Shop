@@ -17,7 +17,7 @@
 
 }
 
-<h2>List of All Products</h2>
+<h2 style="color:white">List of All Items</h2>
 @{
     string connDB = WebConfigurationManager.ConnectionStrings["connDB"].ConnectionString;
 
@@ -32,9 +32,9 @@
             {
                 if (reader.HasRows)
                 {
-                    <table style="text-align:center; border: 5px maroon" border="1" class="w3-table-all w3-light-grey">
+                    <table style="text-align: center; border: 5px #944bbb" border="1" class="w3-table-all w3-light-grey">
                         <thead>
-                            <tr style="background-color: maroon; color: white">
+                            <tr style="background-color: #944bbb; color: white ">
                                 <th width="15%" style="text-align:center; ">
                                     Item Number
                                 </th>
@@ -57,14 +57,14 @@
                         <tbody>
                             @while (reader.Read())
                             {
-                                <tr class="items w3-padding-64">
-                                    <td class="itmnum w3-padding-64">
+                                <tr class="items w3-padding-40">
+                                    <td class="itmnum">
                                         @reader["ITMNUM"]
                                     </td>
-                                    <td class="onhand w3-padding-64 w3-center class">
+                                    <td class="onhand w3-center class">
                                         @reader["ITMONHAND"]
                                     </td>
-                                    <td class="price w3-padding-64 w3-center class">
+                                    <td class="price w3-center class">
                                         @reader["ITMPRICE"]
                                     </td>
                                     <td class="itmimage" style="padding-top:3em">

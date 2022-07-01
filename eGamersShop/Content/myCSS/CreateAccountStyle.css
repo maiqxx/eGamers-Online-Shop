@@ -1,7 +1,7 @@
 ﻿
 /* Style all input fields */
 input {
-    width: 100%;
+    width: 250px;
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -13,6 +13,7 @@ input {
 /* Style the tables/form contentent */
 table {
     padding-left: 50px;
+    display:flex;
 }
 
 
@@ -23,11 +24,11 @@ table td{
 
 /* Style the container for a sign up logo*/
 .jam-container1 {
-    float: left; 
-    width: 40%; 
-    padding: 10px; 
-    height: 1100px; 
-    background-color: maroon;
+    float: left;
+    width: 40%;
+    padding: 10px;
+    height: 1100px;
+    background-color: #33658A;
 }
 
 /* Style the container for inputs */
@@ -80,3 +81,20 @@ table td{
         left: -35px;
         content: "&#10006;";
     }
+
+
+/* Dropdown list */
+#ddlRole {
+    width: 250px;
+    padding: 12px;
+    height: fit-content;
+}
+
+    #ddlRole .dropdownlist {
+        font-size:large;
+        flex-wrap:wrap;
+    }
+
+#btnRegister{
+    height:50px;
+}

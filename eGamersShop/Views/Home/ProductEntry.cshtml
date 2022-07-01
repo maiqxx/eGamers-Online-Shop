@@ -8,11 +8,11 @@
 </head>
 <body>
     <form id="productRecord" action="../Home/ProductEntry" method="post" enctype="multipart/form-data">
-        <h2>Product Entry</h2>
+        <h2 style="color:azure;">Product Entry</h2>
         <div style="height:1100px;">
-            <div style="float: left; width: 2%; padding: 10px; height: 1100px; background-color: maroon;">
+            <div style="float: left; width: 2%; padding: 10px; height: 1000px; background-color: #944bbb; ">
             </div>
-            <div style="float: left; width: 35%; padding: 10px; height: 1100px; background-color: #f2f2f2; border: 1px solid lightgrey;">
+            <div style="float: left; width: 35%; padding: 10px; height: 1000px; background-color: #EEEEEE; border: 1px solid lightgrey; ">
                 Product Number/Code <br />
                 <input class="w3-input w3-border w3-round" type="text" id="txtCode" name="txtCode" /><br />
                 Product Name <br />
@@ -33,10 +33,10 @@
                 <input class="w3-input w3-border w3-round" type="text" id="datepicker" name="datepicker" value="@DateTime.Now.ToShortDateString()" />
                 <br />
 
-                <input class="w3-button w3-blue w3-round" id="btnSaveProd" type="submit" value="Save" /><br />
+                <input class="w3-button w3-round-xxlarge w3-dark-grey" id="btnSaveProd" style="width:100px; " type="submit" value="Save" /><br />
 
             </div>
-            <div style="float: left; width: 55%; padding: 10px; height: 1100px; background-color: maroon;">
+            <div style="float: left; width: 55%; padding: 10px; height: 1000px; background-color: #944bbb; ">
 
             </div>
         </div>

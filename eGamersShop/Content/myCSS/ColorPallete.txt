@@ -1,0 +1,48 @@
+﻿
+
+MY COLOR PALLLETE FOR THIS WEB APP
+
+--------------THIRD OPTION------------------------
+			GRADIENT
+
+background-image: linear-gradient(to top, #09203f 0%, #537895 100%);
+
+#EEEEEE - gray
+
+#33658A -- THIS
+
+
+
+#395c6b
+
+
+#27496D - dark blue green
+
+
+
+
+--------------SECOND OPTION------------------------
+
+				GREY FRIENDS
+
+#845EC2 - (PURPLE) 30%
+
+#4B4453 - (SOIL-LIKE COLOR) 60%
+
+#B0A8B9 - (GREY) 10%
+
+
+
+
+
+
+
+
+
+
+--------------FIRST OPTION-------------------------
+#845EC2 - (PURPLE) [60%] 
+
+#D8EBF4 - (PALE-BLUE / LIGHT BLUE) [10%]
+
+#2C86A2 - (BLUE-GREEN) [30%]

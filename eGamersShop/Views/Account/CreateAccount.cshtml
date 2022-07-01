@@ -1,0 +1,191 @@
+﻿
+@using eGamersShop.Models
+
+
+
+@{
+    ViewBag.Title = "CreateAccount";
+}
+
+@Styles.Render("~/Content/w3/w3.css")
+@Styles.Render("~/Content/myCSS/CreateAccountStyle.css")
+
+
+<h2 style="color: white">Create Account</h2>
+<hr />
+<br />
+
+
+@using (Html.BeginForm("CreateAccount", "Account", FormMethod.Post))
+{
+
+
+    @* Start form fields *@
+
+    <div runat="server" class="jam-container1">
+    </div>
+
+    <div runat="server" class="jam-container2">
+
+
+        <br />
+        <table style="width:100%;" runat="server">
+
+            <tr runat="server">
+                <td runat="server" style="text-align:right; width:170px">Last Name</td>
+                <td runat="server"><input runat="server" id="txtLastname" name="txtLastname" type="text" required /></td>
+                <td runat="server">&nbsp;</td>
+            </tr>
+
+            <tr runat="server">
+                <td runat="server" style="text-align: right; width: 170px ">First Name</td>
+                <td runat="server"><input id="txtFirstname" name="txtFirstname" type="text" required /></td>
+                <td runat="server">&nbsp;</td>
+            </tr>
+
+            <tr runat="server">
+                <td runat="server" style="text-align: right; width: 170px ">Middle Name</td>
+                <td runat="server"><input runat="server" id="txtMidname" name="txtMidname" type="text" /></td>
+                <td runat="server">&nbsp;</td>
+            </tr>
+
+            <tr runat="server">
+                <td runat="server" style="text-align: right; width: 170px ">Address</td>
+                <td runat="server"><input runat="server" id="txtAddress" name="txtAddress" type="text" required /></td>
+                <td runat="server">&nbsp;</td>
+            </tr>
+
+            <tr runat="server">
+                <td runat="server" style="text-align: right; width: 170px ">Phone Number</td>
+                <td runat="server"><input runat="server" id="txtPhoneNum" name="txtPhoneNum" type="text" required /></td>
+                <td>&nbsp;</td>
+            </tr>
+
+            <tr runat="server">
+                <td runat="server" style="text-align: right; width: 170px ">Email Address</td>
+                <td runat="server"><input runat="server" id="txtEmail" name="txtEmail" type="email" required /></td>
+                <td runat="server">&nbsp;</td>
+            </tr>
+
+            <tr runat="server">
+                <td runat="server" style="text-align: right; width: 170px ">Username</td>
+                <td runat="server"><input id="txtUsername" name="txtUsername" type="text" required /></td>
+                <td runat="server">&nbsp;</td>
+            </tr>
+
+            <tr runat="server">
+                <td runat="server" style="text-align: right; width: 170px ">Password</td>
+                <td runat="server">
+                    <input runat="server" id="txtPassword" name="txtPassword" type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                           title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required />
+                </td>
+                <td runat="server">&nbsp;</td>
+            </tr>
+
+            <tr runat="server">
+                <td runat="server" style="text-align: right; width: 170px ">Sign Up As</td>
+
+                <td runat="server">
+                    <div id="ddlRole" >
+                        <div class="dropdownlist w3-dropdown-hover">
+                            @Html.DropDownList("SelectRoleType", new SelectList(Enum.GetValues(typeof(RoleType))), "Select Role")
+                        </div>
+                    </div>
+                </td>
+                <td runat="server">&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td runat="server">&nbsp;</td>
+                <td runat="server"><input id="btnRegister" name="btnRegister" type="submit" value="Register" class="w3-button w3-round-xxlarge w3-dark-grey" /></td>
+                <td runat="server">&nbsp;</td>
+            </tr>
+
+        </table>
+
+
+        <div id="message" style="padding-left: 70px;">
+            <h5>Password must contain the following:</h5>
+            <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+            <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+            <p id="number" class="invalid">A <b>number</b></p>
+            <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+        </div>
+    </div>
+
+
+
+
+    @* End of form fields *@
+
+
+}
+
+
+
+
+
+<script type="text/javascript" src="~/Scripts/myScripts/CreateAccountScript.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script>
+    var myInput = document.getElementById("psw");
+    var letter = document.getElementById("letter");
+    var capital = document.getElementById("capital");
+    var number = document.getElementById("number");
+    var length = document.getElementById("length");
+
+    // When the user clicks on the password field, show the message box
+    myInput.onfocus = function () {
+        document.getElementById("message").style.display = "block";
+    }
+
+    // When the user clicks outside of the password field, hide the message box
+    myInput.onblur = function () {
+        document.getElementById("message").style.display = "none";
+    }
+
+    // When the user starts to type something inside the password field
+    myInput.onkeyup = function () {
+        // Validate lowercase letters
+        var lowerCaseLetters = /[a-z]/g;
+        if (myInput.value.match(lowerCaseLetters)) {
+            letter.classList.remove("invalid");
+            letter.classList.add("valid");
+        } else {
+            letter.classList.remove("valid");
+            letter.classList.add("invalid");
+        }
+
+        // Validate capital letters
+        var upperCaseLetters = /[A-Z]/g;
+        if (myInput.value.match(upperCaseLetters)) {
+            capital.classList.remove("invalid");
+            capital.classList.add("valid");
+        } else {
+            capital.classList.remove("valid");
+            capital.classList.add("invalid");
+        }
+
+        // Validate numbers
+        var numbers = /[0-9]/g;
+        if (myInput.value.match(numbers)) {
+            number.classList.remove("invalid");
+            number.classList.add("valid");
+        } else {
+            number.classList.remove("valid");
+            number.classList.add("invalid");
+        }
+
+        // Validate length
+        if (myInput.value.length >= 8) {
+            length.classList.remove("invalid");
+            length.classList.add("valid");
+        } else {
+            length.classList.remove("valid");
+            length.classList.add("invalid");
+        }
+    }
+</script>
+
+
+
