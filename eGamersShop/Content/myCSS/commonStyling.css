@@ -1,0 +1,9 @@
+﻿
+.center-content-div {
+    display: flex;
+    justify-content: center;
+}
+
+.primary-text-color{
+    color:white;
+}

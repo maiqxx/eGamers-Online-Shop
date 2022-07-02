@@ -11,7 +11,7 @@ using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Web.UI.HtmlControls;
-
+using eGamersShop.Models;
 
 namespace eGamersShop.Controllers
 {
@@ -39,6 +39,74 @@ namespace eGamersShop.Controllers
 
             return View();
         }
+
+        public ActionResult Registration()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Registration(User model)
+        {
+            DataTable dt = new DataTable();
+            SqlParameter[] param = new SqlParameter[]
+            {
+                new SqlParameter("@lastname", model.Lastname),
+                new SqlParameter("@firstname", model.Firstname),
+                new SqlParameter("@address", model.Address),
+                new SqlParameter("@birthdate", model.Birthdate),
+                new SqlParameter("@address", model.Contactnum),
+                new SqlParameter("@address", model.Email),
+                new SqlParameter("@address", model.Username),
+                new SqlParameter("@address", model.Password),
+                new SqlParameter("@address", model.Role)
+            };
+            dt = SaveData("Registration", param);
+            if(dt.Rows.Count > 0)
+            {
+                if(Convert.ToInt32(dt.Rows[0]["msg"]) == 1)
+                {
+                    ViewBag.Msg = "Registered Successfully!";
+                }
+            }
+            return View();
+        }
+
+        public DataTable SaveData (string ProName, SqlParameter[] Param)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (var db = new SqlConnection(connDB))
+                {
+                    db.Open();
+                    SqlCommand cmd = new SqlCommand(ProName, db);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    foreach(SqlParameter p in Param)
+                    {
+                        cmd.Parameters.Add(p);
+                    }
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    adapter.Fill(dt);
+
+                    db.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Response.Write(ex);
+            }
+            finally
+            {
+                //
+            }
+            return dt;
+        }
+
+            
+        
 
         public ActionResult ProductEntry()
         {
@@ -119,6 +187,7 @@ namespace eGamersShop.Controllers
                 catch (Exception ex)
                 {
                     Response.Write("<script>alert('Something went wrong...')</script>");
+                    Response.Write(ex);
                 }
             }
 
@@ -184,12 +253,69 @@ namespace eGamersShop.Controllers
             var itmcode = Request["ITMNO"].Trim();
             var price = Request["PRICE"].Trim();
             var qty = Request["QTY"].Trim();
+            var itemname = "";
+            var email = " ";
 
             //add here the functionalities
             //add database for cart/orders
 
+            try
+            {
+                using (var db = new SqlConnection(connDB))
+                {
+                    db.Open();
+                    using (var cmd = db.CreateCommand())
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.CommandText = "SELECT ITMNAME FROM ITMTBL WHERE ITMNUM = '" + itmcode + "' ";
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            data.Add(new
+                            {
+                                itemname = reader["ITMNAME"].ToString(),
 
-            return Json(data, JsonRequestBehavior.AllowGet);
+                            });
+                        }
+
+                        cmd.CommandText = "INSERT INTO ORDERTBL (ITEMCODE, ITEMNAME, ITEMPRICE, QUANTITY, EMAIL)"
+                            + " VALUES ("
+                            + " @CODE,"
+                            + " @NAME,"
+                            + " @PRICE,"
+                            + " @QTY,"
+                            + " @EMAIL,"
+                            + " @DATE)";
+                        cmd.Parameters.AddWithValue("@CODE", itmcode);
+                        cmd.Parameters.AddWithValue("@NAME", itemname);
+                        cmd.Parameters.AddWithValue("@PRICE", price);
+                        cmd.Parameters.AddWithValue("@QTY", qty);
+                        cmd.Parameters.AddWithValue("@EMAIL", email);
+                        cmd.Parameters.AddWithValue("@DATE", DateTime.Now);
+                        var ctr = cmd.ExecuteNonQuery();
+                        if (ctr >= 1)
+                        {
+                            Response.Write("<script>alert('Item added to cart.')</script>");
+                        }
+                        else
+                        {
+                            Response.Write("<script>alert('Failed to adding to cart.')</script>");
+                        }
+                            
+
+
+
+                    }
+                }
+            }
+            catch (Exception ex) 
+            {
+                Response.Write("<script>alert('Something went wrong...')</script>");
+                Response.Write(ex);
+            }
+            
+
+             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -266,7 +392,7 @@ namespace eGamersShop.Controllers
         }
 
         
-
+    
 
 
     }

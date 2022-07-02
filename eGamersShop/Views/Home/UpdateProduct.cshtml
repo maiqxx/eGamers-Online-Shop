@@ -1,22 +1,60 @@
 ﻿
+@using System;
+@using System.Collections.Generic;
+@using System.Linq;
+@using System.Web;
+@using System.Web.Mvc;
+@using System.Data;
+@using System.Data.SqlClient;
+@using System.Configuration;
+@using System.Web.Configuration;
+@using System.IO;
+@using System.Drawing;
+@using System.Drawing.Imaging;
+
 @{
     ViewBag.Title = "UpdateProduct";
 }
 
-<h2>UpdateProduct</h2>
-
+<h2 class="primary-text-color">Update Product</h2>
+<hr />
+<br />
 <html>
 <body>
-    Product Code<br />
-    <input type="text" id="itmcde" name="itmcde" required />&nbsp;&nbsp;
-    <input type="button" id="btnSearch" name="btnSearch" value="Search" />
-    <br />
-    Product  Description <br />
-    <input type="text" id="itmdesc" name="itmdesc" required /><br /><br />
-    Product  Price <br />
-    <input type="text" id="itmprice" name="itmprice" required /><br /><br />
-    <input type="button" id="btnEdit" name="btnEdit" value="Edit" />
-    <input type="button" id="btnUpdate" name="btnUpdate" value="Update" />
+    <div style="height:600px;">
+        <div style="float: left; width: 2%; padding: 10px; height: 500px; background-color: #411F74;"></div>
+        <div style="float: left; width: 39%; padding: 10px; height: 500px; background-color: #EEEEEE; border: 1px solid lightgrey; ">
+            <br />
+            <br />
+            Product Code<br />
+            <input type="text" id="itmcde" name="itmcde" required />&nbsp;&nbsp;&nbsp;
+            <input type="button" id="btnSearch" name="btnSearch" value="Search" />
+            <br /><br />
+            Product  Description <br />
+            <input type="text" id="itmdesc" name="itmdesc" required /><br /><br />
+            Product  Price <br />
+            <input type="text" id="itmprice" name="itmprice" required /><br /><br />
+            <input type="button" id="btnEdit" name="btnEdit" value="Edit" class="w3-button w3-round-xxlarge" style="width: 100px; background-color: #7769B9; color:white;" />
+            <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class="w3-button w3-round-xxlarge" style="width: 100px; background-color: #7769B9; color:white;" />
+
+            <script type="text/javascript" src="~/Scripts/jquery-3.6.0.min.js"></script>
+            <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+            <script src="~/Scripts/myScripts/UpdateItem.js"></script>
+            <script type="text/javascript" src="~/Scripts/myScripts/myScript.js?data=@DateTime.Now.ToString("mmss")"></script>
+
+        </div>
+        <div style="float: left; width: 55%; padding: 10px; height: 500px; background-color: #411F74; ">
+            @*<center>
+                <img src="../Home/Image?filename=@HttpUtility.UrlEncode(reader["ITMIMG"] + "")" width="20%" /> <br />
+                @String.Format("{0:0.00}", reader["ITMNAME"])<br />
+
+            </center><br /><br />*@
+
+
+        </div>
+
+
+    </div>
 
     <script type="text/javascript" src="~/Scripts/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>

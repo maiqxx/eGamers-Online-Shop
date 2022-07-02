@@ -17,7 +17,7 @@
 
 }
 
-<h2 style="color:white">List of All Items</h2>
+<h2 class="primary-text-color">List of All Items</h2>
 @{
     string connDB = WebConfigurationManager.ConnectionStrings["connDB"].ConnectionString;
 
@@ -32,9 +32,9 @@
             {
                 if (reader.HasRows)
                 {
-                    <table style="text-align: center; border: 5px #944bbb" border="1" class="w3-table-all w3-light-grey">
+                    <table style="text-align: center; border: 5px #411F74" border="1" class="w3-table-all">
                         <thead>
-                            <tr style="background-color: #944bbb; color: white ">
+                            <tr style="background-color: #411F74; color: white ">
                                 <th width="15%" style="text-align:center; ">
                                     Item Number
                                 </th>
@@ -57,7 +57,7 @@
                         <tbody>
                             @while (reader.Read())
                             {
-                                <tr class="items w3-padding-40">
+                                <tr class="items w3-padding-40 w3-hover">
                                     <td class="itmnum">
                                         @reader["ITMNUM"]
                                     </td>
@@ -69,7 +69,7 @@
                                     </td>
                                     <td class="itmimage" style="padding-top:3em">
                                         <center>
-                                            <img src="../Home/Image?filename=@HttpUtility.UrlEncode(reader["ITMIMG"] + "")" width="20%" /> <br />
+                                            <img src="../Home/Image?filename=@HttpUtility.UrlEncode(reader["ITMIMG"] + "")" style="width:200px; height:200px;" /> <br />
                                             @String.Format("{0:0.00}", reader["ITMNAME"])<br />
                                             <input type="number" class="txtqty" name="txtqty" step="1" /><br /><br/>
                                             <input type="button" class="btnCart" name="btnsbmt" value="Add to Cart" />
@@ -103,6 +103,7 @@
             var itmnum = $(this).closest('.items').find('.itmnum').html();
             var onhand = $(this).closest('.items').find('.onhand').html();
             var qty = $(this).closest('.items').find('.txtqty').val();
+            
 
             if (parseInt(qty) <= parseInt(onhand)) {
                 //alert(qty + " " + itmnum);
