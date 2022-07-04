@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "LogIn";
+}
+
+@*<h2>LogIn</h2>*@
+
+<html>
+<head>
+    <link rel="stylesheet" href="~/Content/w3/w3.css" />
+</head>
+<body>
+    <form id="logIn" action="../Home/LogIn" method="post" enctype="multipart/form-data">
+        <div style="height:1050px;" class="center-content-div">
+            <div style="float:left; width: 45%; padding: 10px; height: 1050px; background-color: #411F74; " class="center-content-div">
+                <br />
+                @*<div class="center-content-div" style="width:100%; ">
+                        <h2 class="primary-text-color" style="text-align:center">Sign Up</h2>
+                    </div>*@
+
+
+            </div>
+            <div style=" float: right; width: 55%; padding: 10px; height: 1050px; background-color: #EEEEEE; border: 1px solid lightgrey; justify-content:center">
+                <h2 class="center-content-div">Sign In</h2>
+                <div style="margin-left:150px; ">
+                    <br />
+
+                    Email Address <br />
+                    <input class="w3-input w3-border w3-round" type="email" id="txtEmail" name="txtEmail" required /><br />
+                    Password <br />
+                    <input class="w3-input w3-border w3-round" type="password" id="txtPassword" name="txtPassword" required />
+                    <br/>
+                    <br/>
+                    <input class="w3-button w3-round-xxlarge" id="btnLogIn" style="width: 270px; height:50px; background-color: #7769B9; color:white; " type="submit" value="Sign In" /><br />
+                </div>
+            </div>
+
+
+        </div>
+    </form>
+
+    <script type="text/javascript" src="~/Scripts/jquery-3.6.0.min.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/myScripts/Registration.js"></script>*@
+
+</body>
+</html>
+

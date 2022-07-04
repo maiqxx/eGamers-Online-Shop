@@ -69,7 +69,7 @@
                                     </td>
                                     <td class="itmimage" style="padding-top:3em">
                                         <center>
-                                            <img src="../Home/Image?filename=@HttpUtility.UrlEncode(reader["ITMIMG"] + "")" style="width:200px; height:200px;" /> <br />
+                                            <img src="../Home/Image?filename=@HttpUtility.UrlEncode(reader["ITMIMG"] + "")" style="width:150px; height:150px;" /> <br />
                                             @String.Format("{0:0.00}", reader["ITMNAME"])<br />
                                             <input type="number" class="txtqty" name="txtqty" step="1" /><br /><br/>
                                             <input type="button" class="btnCart" name="btnsbmt" value="Add to Cart" />
@@ -114,6 +114,10 @@
                 }, function (res) {
 
                 });
+            } else if (qty == "") {
+
+                alert('Please input the quantity of item(s) you want to purchase.');
+                
             } else {
                 alert('Insufficient stocks');
             }

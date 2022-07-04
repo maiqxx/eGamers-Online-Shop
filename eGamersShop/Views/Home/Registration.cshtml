@@ -1,99 +1,66 @@
-﻿@model eGamersShop.Models.User
-
+﻿
 @{
     ViewBag.Title = "Registration";
 }
 
-<h2 >Sign Up</h2>
+<html>
+<head>
+    <link rel="stylesheet" href="~/Content/w3/w3.css" />
+</head>
+<body>
+    <form id="registration" action="../Home/Registration" method="post" enctype="multipart/form-data">
+        <div style="height:1050px;" class="center-content-div">
+            <div style="float:left; width: 45%; padding: 10px; height: 1050px; background-color: #411F74; " class="center-content-div">
+                <br />
+                @*<div class="center-content-div" style="width:100%; ">
+                <h2 class="primary-text-color" style="text-align:center">Sign Up</h2>
+            </div>*@
 
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-<div class="form-horizontal">
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(model => model.Lastname, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Lastname, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Lastname, "", new { @class = "text-danger" })
+
+            </div>
+            <div style=" float: right; width: 55%; padding: 10px; height: 1050px; background-color: #EEEEEE; border: 1px solid lightgrey; justify-content:center">
+                <h2 class="center-content-div">Sign Up</h2>
+                <div style="margin-left:150px; ">
+                    <br />
+                    Lastname <br />
+                    <input class="w3-input w3-border w3-round" type="text" id="txtLastname" name="txtLastname" required /><br />
+                    Firstname <br />
+                    <input class="w3-input w3-border w3-round" type="text" id="txtFirstname" name="txtFirstname" required /><br />
+                    Address <br />
+                    <input class="w3-input w3-border w3-round" type="text" id="txtAddress" name="txtAddress" required /><br />
+                    Date of Birth <br />
+                    <input class="w3-input w3-border w3-round" type="date" id="txtBdate" name="txtBdate" required /><br />
+                    Contact Number <br />
+                    <input class="w3-input w3-border w3-round" type="text" id="txtContact" name="txtContact" /><br />
+                    Email Address <br />
+                    <input class="w3-input w3-border w3-round" type="email" id="txtEmail" name="txtEmail" required /><br />
+                    Username <br />
+                    <input class="w3-input w3-border w3-round" type="text" id="txtUsername" name="txtUsername" required /><br />
+                    Password <br />
+                    <input class="w3-input w3-border w3-round" type="password" id="txtPassword" name="txtPassword" required />
+                    <span id="password_strength" style=" color: red; "></span><br />
+                    Confirm Password <br />
+                    <input class="w3-input w3-border w3-round" type="password" id="txtConPassword" name="txtConPassword" required/>
+                    <span id="CheckPasswordMatch"></span><br />
+                    <!--Choose a Role: <br />
+                    <select id="selectRoleType" name="selectRoleType" class="w3-round" style="width:270px; height:45px;" required>-->
+                        @*<option>Select A Role to Sign In</option>*@
+                        <!--<option value="Customer">Customer</option>
+                        <option value="Admin">Admin</option>
+
+                    </select>-->
+                    @*<br /><br />*@
+                    <input class="w3-button w3-round-xxlarge" id="btnRegister" style="width: 270px; height:50px; background-color: #7769B9; color:white; " type="submit" value="Sign Up" /><br />
+                </div>
+            </div>
+
+
         </div>
-    </div>
+    </form>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Firstname, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Firstname, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Firstname, "", new { @class = "text-danger" })
-        </div>
-    </div>
+    <script type="text/javascript" src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/myScripts/Registration.js"></script>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
-        </div>
-    </div>
+</body>
+</html>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Birthdate, " ", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Birthdate, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Birthdate, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    @* @Html.LabelFor(model => model.SpendAmount, "Spent $", htmlAttributes: new { @class = "control-label col-md-2" }) *@
-    <div class="form-group">
-        @Html.LabelFor(model => model.Contactnum, "Contact Number ", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Contactnum, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Contactnum, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Email, "Email Address ", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Role, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Role, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
-        </div>
-    </div>
-</div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
