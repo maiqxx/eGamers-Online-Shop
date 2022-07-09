@@ -1,16 +1,46 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+<br />
+<br />
+<br />
+<br />
+<br />
 
-<div class="jumbotron" style="background-image: linear-gradient(to top, #dfe9f3 0%, white 100%); ">
-    <h1>E-Gamer's Online Shop</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="~/Views/Account/CreateAccount.cshtml" class="btn btn-primary btn-lg">Go to shop &raquo;</a></p>
+<div class="jumbotron" style="background-image: linear-gradient(to right top, #845ec2, #7789db, #81aee7, #a6ceec, #daebf2);">
+    <h1></h1>
+
+    <h1>
+        <div style="float:left; margin-bottom:20px; margin-left:30px;">
+            <strong>GamingGears </strong>Shop
+        </div>
+
+        <div class="stage">
+            <div class="pyramid3d" style="margin-right:30px;">
+                <div class="triangle side1"></div>
+                <div class="triangle side2"></div>
+                <div class="triangle side3"></div>
+                <div class="triangle side4"></div>
+            </div>
+        </div>
+    </h1>
+
+    <h3 style='clear:both' class="subhead">
+        <br/>
+        <p class="center-content-div ">GamingGears Shop is a marketplace enables gamers to buy items for their favourite game.</p>
+    </h3>
+    
+    <br />
+    <br />
+    <div class="center-content-div">
+        <p><a href="@Url.Action("LogIn","Home")" class="w3-button w3-round-xxlarge" style="width: 170px; background-color: #7769B9; color: white; height: 50px; ">Sign In</a></p> &nbsp;&nbsp;&nbsp;&nbsp;
+        <p><a href="@Url.Action("Registration","Home")" class="w3-button w3-round-xxlarge" style="width: 170px; background-color: #7769B9; color: white; height:50px;">Go to Shop</a></p>
+    </div>
+
 </div>
 
-<br />
-<br />
-<br />
+
+
 <br />
 <br />
 <br />

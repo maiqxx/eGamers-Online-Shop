@@ -11,9 +11,11 @@ using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Web.UI.HtmlControls;
+using System.Web.SessionState;
 
 namespace eGamersShop.Controllers
 {
+    [SessionState(SessionStateBehavior.Default)]
     public class HomeController : Controller
     {
         string connDB = WebConfigurationManager.ConnectionStrings["connDB"].ConnectionString;
@@ -54,7 +56,7 @@ namespace eGamersShop.Controllers
             return View();
         }
 
-        public ActionResult EntryProduct()
+        public ActionResult MyCart()
         {
             return View();
         }
@@ -67,7 +69,15 @@ namespace eGamersShop.Controllers
 
         public ActionResult LogIn()
         {
-            return View();
+            if (Session["email"] != null)
+            {
+                return RedirectToAction("Registration", "Home", new { email = Session["email"].ToString() });
+            }
+            else
+            {
+                return View();
+            }
+            //return View();
         }
 
         [HttpPost]
@@ -78,17 +88,23 @@ namespace eGamersShop.Controllers
 
             try
             {
+
+                Response.Write("<script>alert(email)</script>");
+
                 using (var db = new SqlConnection(connDB))
                 {
                     db.Open();
                     using (var cmd = db.CreateCommand())
                     {
                         cmd.CommandType = CommandType.Text;
-                        cmd.CommandText = "SELECT * FROM USERTBL WHERE EMAIL = '"+ email +"' AND PASSWORD = '"+ password+"' ";
+                        cmd.CommandText = "SELECT * FROM USERTBL WHERE EMAIL = '" + email + "' AND PASSWORD = '" + password + "' ";
                         SqlDataReader reader = cmd.ExecuteReader();
                         if (reader.Read())
                         {
+
                             Session["email"] = reader["EMAIL"].ToString();
+                            var userEmail = Session["email"].ToString();
+                            Response.Write("<script>alert(userEmail)</script>");
                             Response.Redirect("ListAllProducts");
                         }
                         else
@@ -98,7 +114,7 @@ namespace eGamersShop.Controllers
                     }
 
                 }
-            } 
+            }
             catch (Exception ex)
             {
                 Response.Write("<script>alert('Something went wrong...')</script>");
@@ -106,6 +122,8 @@ namespace eGamersShop.Controllers
             }
             return View();
         }
+
+        
 
         [HttpPost]
         public ActionResult Registration(FormCollection collection)
@@ -119,7 +137,7 @@ namespace eGamersShop.Controllers
             var email = Request["txtEmail"];
             var username = Request["txtUsername"];
             var password = Request["txtPassword"];
-            //var role = Request["ROLE"].Trim();
+
 
             //add try catch
             //add insert sql command
@@ -133,7 +151,7 @@ namespace eGamersShop.Controllers
                     using (var cmd = db.CreateCommand())
                     {
                         cmd.CommandType = CommandType.Text;
-                        cmd.CommandText = "SELECT * FROM USERTBL WHERE USERNAME = '"+ username + "' OR EMAIL = '"+ email + "' ";
+                        cmd.CommandText = "SELECT * FROM USERTBL WHERE USERNAME = '" + username + "' OR EMAIL = '" + email + "' ";
                         SqlDataReader rd = cmd.ExecuteReader();
                         if (rd.HasRows)
                         {
@@ -151,7 +169,7 @@ namespace eGamersShop.Controllers
                                 + " @BDATE,"
                                 + " @CONTACT,"
                                 + " @EMAIL,"
-                                + " @USERNAME, "
+                                + " @USERNAME,"
                                 + " @PSWD)";
                             cmd.Parameters.AddWithValue("@LNAME", lastname);
                             cmd.Parameters.AddWithValue("@FNAME", firstname);
@@ -161,31 +179,31 @@ namespace eGamersShop.Controllers
                             cmd.Parameters.AddWithValue("@EMAIL", email);
                             cmd.Parameters.AddWithValue("@USERNAME", username);
                             cmd.Parameters.AddWithValue("@PSWD", password);
-                            //cmd.Parameters.AddWithValue("@ROLE", role);
                             var ctr = cmd.ExecuteNonQuery();
 
                             if (ctr > 0)
                             {
                                 Response.Write("<script>alert('Registered Successfully!')</script>");
+                                Response.Redirect("LogIn");
                             }
                             else
+                            {
                                 Response.Write("<script>alert('Cannot create your account. ')</script>");
-
-
+                            }
+                                
                         }
 
-                        
+
                     }
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Response.Write("<script>alert('Sorry, something went wrong.')</script>");
                 Response.Write(ex.Message);
             }
 
             return View();
-            //return Json(data, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -199,7 +217,6 @@ namespace eGamersShop.Controllers
             var itmprce = Request["txtprice"];
             var itmonhand = Request["txtonhand"];
             var date = Request["datepicker"];
-
 
             if (uploadImg != null)
             {
@@ -217,7 +234,7 @@ namespace eGamersShop.Controllers
                         using (var cmd = db.CreateCommand())
                         {
                             cmd.CommandType = CommandType.Text;
-                            cmd.CommandText = "INSERT INTO ITMTBL (ITMNUM,ITMNAME,ITMDESC,ITMIMG,ITMONHAND,ITMPRICE,ITMDATE)"
+                            cmd.CommandText = "INSERT INTO ITMTBL (ITMNUM, ITMNAME, ITMDESC, ITMIMG, ITMONHAND, ITMPRICE, ITMDATE)"
                                 + " VALUES ("
                                 + " @NUM,"
                                 + " @NAME,"
@@ -306,83 +323,104 @@ namespace eGamersShop.Controllers
             return new FilePathResult(filepath, mime);
         }
 
+
+
         //Method/button for add to cart from ListAllProducts.cshtml
         public ActionResult Cart()
         {
             var data = new List<object>();
-            var itmcode = Request["ITMNO"].Trim();
-            var price = Request["PRICE"].Trim();
-            var qty = Request["QTY"].Trim();
+            var itmcode = Request["itemno"].Trim();
+            var qty = Request["qty"];
+            var price = "";
+            string email = Session["email"].ToString();
+            var itmimg = "";
             var itemname = "";
-            var email = " ";
-
-            //add here the functionalities
-            //add database for cart/orders
-
-            try
+            using (var db1 = new SqlConnection(connDB))
             {
-                using (var db = new SqlConnection(connDB))
+                db1.Open();
+                using (var cmd = db1.CreateCommand())
                 {
-                    db.Open();
-                    using (var cmd = db.CreateCommand())
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = "SELECT * FROM ITMTBL WHERE ITMNUM='" + itmcode + "'";
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
                     {
-                        cmd.CommandType = CommandType.Text;
-                        cmd.CommandText = "SELECT ITMNAME FROM ITMTBL WHERE ITMNUM = '" + itmcode + "' ";
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        if(reader.Read())
-                        {
-                            data.Add(new
-                            {
-                                itemname = reader["ITMNAME"].ToString(),
-
-                            });
-
-                            cmd.CommandText = "INSERT INTO ORDERTBL (ITEMCODE, ITEMNAME, ITEMPRICE, QUANTITY, EMAIL)"
-                           + " VALUES ("
-                           + " @CODE,"
-                           + " @NAME,"
-                           + " @PRICE,"
-                           + " @QTY,"
-                           + " @EMAIL,"
-                           + " @DATE)";
-                            cmd.Parameters.AddWithValue("@CODE", itmcode);
-                            cmd.Parameters.AddWithValue("@NAME", itemname);
-                            cmd.Parameters.AddWithValue("@PRICE", price);
-                            cmd.Parameters.AddWithValue("@QTY", qty);
-                            cmd.Parameters.AddWithValue("@EMAIL", email);
-                            cmd.Parameters.AddWithValue("@DATE", DateTime.Now);
-                            var ctr = cmd.ExecuteNonQuery();
-                            if (ctr >= 1)
-                            {
-                                Response.Write("<script>alert('Item added to cart.')</script>");
-                            }
-                            else
-                            {
-                                Response.Write("<script>alert('Failed to adding to cart.')</script>");
-                            }
-                        }
-                        else
-                        {
-                            Response.Write("<script>alert('Something went wrong.')</script>");
-                        }
-                        
-
-                       
-                            
-
-
+                        itmimg = reader["ITMIMG"].ToString();
+                        price = reader["ITMPRICE"].ToString();
+                        itemname = reader["ITMNAME"].ToString();
 
                     }
                 }
-            }
-            catch (Exception ex) 
-            {
-                Response.Write("<script>alert('Something went wrong...')</script>");
-                Response.Write(ex);
-            }
-            
+                db1.Close();
 
-             return Json(data, JsonRequestBehavior.AllowGet);
+            }
+            //Try to add the information in DB
+            using (var db = new SqlConnection(connDB))
+            {
+                db.Open();
+                using (var cmd2 = db.CreateCommand())
+                {
+                    cmd2.CommandType = CommandType.Text;
+                    cmd2.CommandText = "SELECT * FROM ORDERTBL WHERE ITMNO ='" + itmcode + "'";
+                    SqlDataReader reader = cmd2.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        data.Add(new
+                        {
+                            exist = true,
+                        });
+                        return Json(data, JsonRequestBehavior.AllowGet);
+
+                    }
+                    else
+                    {
+                        using (var db2 = new SqlConnection(connDB))
+                        {
+                            db2.Open();
+                            using (var cmd = db2.CreateCommand())
+                            {
+                                cmd.CommandText = "INSERT INTO ORDERTBL (ITEMCODE, ITMPRICE, ITEMQTY, EMAIL, ITEMNAME, ITEMIMG)"
+                                                                            + " VALUES ("
+                                                                            + " @NUM,"
+                                                                            + " @PRICE,"
+                                                                            + " @QTY,"
+                                                                            + " @EMAIL,"
+                                                                            + " @INAME,"
+                                                                            + " @ITEMIMAGE)";
+                                cmd.Parameters.AddWithValue("@NUM", itmcode);
+                                cmd.Parameters.AddWithValue("@QTY", qty);
+                                cmd.Parameters.AddWithValue("@PRICE", price);
+                                cmd.Parameters.AddWithValue("@EMAIL", email);
+                                cmd.Parameters.AddWithValue("@INAME", itemname);
+                                cmd.Parameters.AddWithValue("@ITEMIMAGE", itmimg);
+                                var ctr = cmd.ExecuteNonQuery();
+                                if (ctr >= 1)
+                                {
+                                    Response.Write("<script>alert('Add to Cart(hc)')</script>");
+                                    data.Add(new
+                                    {
+                                        price = price,
+                                        code = itmcode,
+                                        qty = qty
+
+
+                                    });
+
+                                }
+                                else
+                                {
+                                    Response.Write("<script>alert('Failed to add the item to your cart.')</script>");
+                                }
+                            }
+                        }
+                    }
+
+
+
+
+                }
+            }
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
 
 

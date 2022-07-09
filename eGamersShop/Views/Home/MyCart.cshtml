@@ -1,0 +1,100 @@
+﻿@using System;
+@using System.Collections.Generic;
+@using System.Linq;
+@using System.Web;
+@using System.Web.Mvc;
+@using System.Data;
+@using System.Data.SqlClient;
+@using System.Configuration;
+@using System.Web.Configuration;
+@using System.IO;
+@using System.Drawing;
+@using System.Drawing.Imaging;
+
+
+@{
+    ViewBag.Title = "MyCart";
+}
+
+<h2>MyCart</h2>
+
+@{
+
+    string connDB = WebConfigurationManager.ConnectionStrings["connDB"].ConnectionString;
+
+    using (var db = new SqlConnection(connDB))
+    {
+        db.Open();
+        using (var cmd = db.CreateCommand())
+        {
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM ORDERTBL WHERE EMAIL='" + Session["email"].ToString() + "'";
+            using (var reader = cmd.ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    <table border="1">
+                        <thead>
+                            <tr>
+                                <th width="15%">
+                                    Item Number
+                                </th>
+                                <th width="10%">
+                                    Quantity
+                                </th>
+                                <th width="15%">
+                                    Price
+                                </th>
+                                <th>
+                                    Image
+                                </th>
+
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            @while (reader.Read())
+                            {
+                                <tr class="items">
+                                    <td class="itmnum" align="center">
+                                        @reader["ITMNO"]
+                                    </td>
+                                    <td class="quantity" align="center">
+                                        @reader["ITMQTY"]
+                                    </td>
+                                    <td class="price" align="center">
+                                        @reader["ITMPRICE"]
+                                    </td>
+                                    <td>
+                                        <center>
+                                            <img src="../Home/Image?filename=@HttpUtility.UrlEncode(reader["ITMIMG"]+"")" width="20%" />
+                                            <br />
+                                            <br />
+                                            <button>@String.Format("{0:0.00}", reader["ITMNAME"])</button>
+                                            <br />
+                                            <br />
+                                            <br />
+
+                                        </center><br /><br />
+
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+
+                    </table>
+                }
+                else
+                {
+                    <p>No Records Found!!!</p>
+                }
+
+            }
+        }
+    }
+
+
+
+
+
+}

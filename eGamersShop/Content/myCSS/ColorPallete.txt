@@ -2,6 +2,18 @@
 
 MY COLOR PALLLETE FOR THIS WEB APP
 
+
+
+#845EC2
+#DAEBF2
+#3286A0
+
+
+
+
+
+
+
 --------------THIRD OPTION------------------------
 			GRADIENT
 
@@ -30,10 +42,6 @@ background-image: linear-gradient(to top, #09203f 0%, #537895 100%);
 #4B4453 - (SOIL-LIKE COLOR) 60%
 
 #B0A8B9 - (GREY) 10%
-
-
-
-
 
 
 

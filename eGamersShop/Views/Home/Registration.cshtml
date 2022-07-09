@@ -6,61 +6,92 @@
 <html>
 <head>
     <link rel="stylesheet" href="~/Content/w3/w3.css" />
+    <style type="text/css">
+        input {
+            height: 35px;
+        }
+
+    </style>
 </head>
 <body>
     <form id="registration" action="../Home/Registration" method="post" enctype="multipart/form-data">
         <div style="height:1050px;" class="center-content-div">
-            <div style="float:left; width: 45%; padding: 10px; height: 1050px; background-color: #411F74; " class="center-content-div">
+            <br />
+            <br />
+
+
+            <div style=" width: 80%; padding: 10px; height: 550px; background-image: linear-gradient(to right top, #845ec2, #7789db, #81aee7, #a6ceec, #daebf2); border: 1px solid lightgrey; justify-content: center" class="w3-panel w3-round-xlarge">
                 <br />
-                @*<div class="center-content-div" style="width:100%; ">
-                <h2 class="primary-text-color" style="text-align:center">Sign Up</h2>
-            </div>*@
-
-
-            </div>
-            <div style=" float: right; width: 55%; padding: 10px; height: 1050px; background-color: #EEEEEE; border: 1px solid lightgrey; justify-content:center">
-                <h2 class="center-content-div">Sign Up</h2>
-                <div style="margin-left:150px; ">
+                <h2 class="center-content-div" style="color:white;"><strong>Sign Up</strong> </h2> <hr/>
+                <div style="margin-left:120px; ">
                     <br />
-                    Lastname <br />
-                    <input class="w3-input w3-border w3-round" type="text" id="txtLastname" name="txtLastname" required /><br />
-                    Firstname <br />
-                    <input class="w3-input w3-border w3-round" type="text" id="txtFirstname" name="txtFirstname" required /><br />
-                    Address <br />
-                    <input class="w3-input w3-border w3-round" type="text" id="txtAddress" name="txtAddress" required /><br />
-                    Date of Birth <br />
-                    <input class="w3-input w3-border w3-round" type="date" id="txtBdate" name="txtBdate" required /><br />
-                    Contact Number <br />
-                    <input class="w3-input w3-border w3-round" type="text" id="txtContact" name="txtContact" /><br />
-                    Email Address <br />
-                    <input class="w3-input w3-border w3-round" type="email" id="txtEmail" name="txtEmail" required /><br />
-                    Username <br />
-                    <input class="w3-input w3-border w3-round" type="text" id="txtUsername" name="txtUsername" required /><br />
-                    Password <br />
-                    <input class="w3-input w3-border w3-round" type="password" id="txtPassword" name="txtPassword" required />
-                    <span id="password_strength" style=" color: red; "></span><br />
-                    Confirm Password <br />
-                    <input class="w3-input w3-border w3-round" type="password" id="txtConPassword" name="txtConPassword" required/>
-                    <span id="CheckPasswordMatch"></span><br />
-                    <!--Choose a Role: <br />
-                    <select id="selectRoleType" name="selectRoleType" class="w3-round" style="width:270px; height:45px;" required>-->
-                        @*<option>Select A Role to Sign In</option>*@
-                        <!--<option value="Customer">Customer</option>
-                        <option value="Admin">Admin</option>
 
-                    </select>-->
-                    @*<br /><br />*@
-                    <input class="w3-button w3-round-xxlarge" id="btnRegister" style="width: 270px; height:50px; background-color: #7769B9; color:white; " type="submit" value="Sign Up" /><br />
+                    <table style="width:90%; padding:10px;">
+                        <tr>
+                            <td style="color:white;">Lastname</td>
+                            <td style="color:white;">Firstname</td>
+                        </tr>
+                        <tr>
+                            <td><input class="w3-input w3-border w3-round" type="text" id="txtLastname" name="txtLastname" required /></td>
+                            <td><input class="w3-input w3-border w3-round" type="text" id="txtFirstname" name="txtFirstname" required /></td>
+                        </tr>
+                        <tr>
+                            <td style="color:white;">Address</td>
+                            <td style="color:white;">Date of Birth </td>
+                        </tr>
+                        <tr>
+                            <td><input class="w3-input w3-border w3-round" type="text" id="txtAddress" name="txtAddress" required /></td>
+                            <td><input class="w3-input w3-border w3-round" type="date" id="txtBdate" name="txtBdate" required /></td>
+                        </tr>
+                        <tr>
+                            <td style="color:white;">Contact Number</td>
+                            <td style="color:white;">Email Address</td>
+                        </tr>
+                        <tr>
+                            <td><input class="w3-input w3-border w3-round" type="text" id="txtContact" name="txtContact" /></td>
+                            <td><input class="w3-input w3-border w3-round" type="email" id="txtEmail" name="txtEmail" required /></td>
+                        </tr>
+                        <tr>
+                            <td style="color:white;">Username</td>
+                            <td style="color:white;">Password</td>
+                        </tr>
+                        <tr>
+                            <td><input class="w3-input w3-border w3-round" type="text" id="txtUsername" name="txtUsername" required /></td>
+                            <td>
+                                <input class="w3-input w3-border w3-round" type="password" id="txtPassword" name="txtPassword" required />
+                                <span id="password_strength" style=" color: red; "></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="color:white;">Confirm Password</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input class="w3-input w3-border w3-round" type="password" id="txtConPassword" name="txtConPassword" required />
+                                <span id="CheckPasswordMatch"></span><br />
+                            </td>
+                            <td>&nbsp;</td>
+                        </tr>
+
+                        <tr>
+                            <td><a href="@Url.Action("LogIn","Home")" style="width:150px; color:white">Already have an account?</a></td>
+                            <td><input class="w3-button w3-round-xxlarge" id="btnRegister" style="width: 250px; height:50px; background-color: #7769B9; color:white; " type="submit" value="Sign Up" /></td>
+                        </tr>
+
+                    </table>
+
                 </div>
             </div>
 
-
         </div>
     </form>
+
 
     <script type="text/javascript" src="~/Scripts/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="~/Scripts/myScripts/Registration.js"></script>
 
 </body>
 </html>
+
 

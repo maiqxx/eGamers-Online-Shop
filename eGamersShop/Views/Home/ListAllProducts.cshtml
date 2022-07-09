@@ -10,6 +10,7 @@
 @using System.IO;
 @using System.Drawing;
 @using System.Drawing.Imaging;
+@using System.Web.SessionState;
 
 @{
 
@@ -18,6 +19,13 @@
 }
 
 <h2 class="primary-text-color">List of All Items</h2>
+
+@*<h3>
+    @Session["email"].ToString()
+</h3>*@
+
+@*<h3>>@ViewBag.MyData</h3>*@
+
 @{
     string connDB = WebConfigurationManager.ConnectionStrings["connDB"].ConnectionString;
 
@@ -103,21 +111,24 @@
             var itmnum = $(this).closest('.items').find('.itmnum').html();
             var onhand = $(this).closest('.items').find('.onhand').html();
             var qty = $(this).closest('.items').find('.txtqty').val();
-            
+            //var price = $(this).closest('.items').find('.itmprice').val();
+            /*var date = $(this).find('.datepicker').val();*/
 
             if (parseInt(qty) <= parseInt(onhand)) {
                 //alert(qty + " " + itmnum);
                 $.post("../Home/Cart", {
-                    itemNo: itmnum,
+                    itemno: itmnum,
                     qty: qty,
-                    price: price
+
+                    //not done
                 }, function (res) {
 
                 });
-            } else if (qty == "") {
+                alert('Added to Cart');
+            } else if (qty == "" || qty == 0) {
 
                 alert('Please input the quantity of item(s) you want to purchase.');
-                
+
             } else {
                 alert('Insufficient stocks');
             }

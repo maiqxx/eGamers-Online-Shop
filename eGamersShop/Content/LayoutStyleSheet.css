@@ -1,0 +1,215 @@
+﻿
+
+
+/*Body Styling*/
+body {
+    background-image: linear-gradient(to right, #434343 0%, black 100%);
+    background-size: cover;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+
+    .nav .search-container {
+        float: right;
+    }
+
+    .nav input[type=text] {
+        padding: 6px;
+        margin-top: 8px;
+        font-size: 17px;
+        border: none;
+    }
+
+    .nav .search-container button {
+        float: right;
+        padding: 6px 10px;
+        margin-top: 8px;
+        margin-right: 16px;
+        background: #ddd;
+        font-size: 17px;
+        border: none;
+        cursor: pointer;
+    }
+
+        .nav .search-container button:hover {
+            background: #ccc;
+        }
+
+@media screen and (max-width: 600px) {
+    .nav .search-container {
+        float: none;
+    }
+
+        .nav a, .nav input[type=text], .topnav .search-container button {
+            float: none;
+            display: block;
+            text-align: left;
+            width: 100%;
+            margin: 0;
+            padding: 14px;
+        }
+
+    .nav input[type=text] {
+        border: 1px solid #ccc;
+    }
+}
+
+/* PYRAMID CODE */
+.stage {
+    -webkit-transform: scale(1.85);
+    transform: scale(0.85);
+    float: right;
+    margin-right: 120px;
+    margin-top: 30px;
+    width: 0px;
+    height: 0px;
+    position: relative;
+    -webkit-perspective: 1200px;
+    -webkit-perspective-origin: 50% 50%;
+    perspective: 1200px;
+    perspective-origin: 50% 50%;
+}
+
+.pyramid3d {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-transform: rotateX(75deg) rotate(65deg);
+    transform: rotateX(75deg) rotate(65deg);
+    -webkit-animation: turnPyramid 10s linear infinite;
+    animation: turnPyramid 10s linear infinite;
+}
+
+.triangle {
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    width: 0;
+    height: 0;
+    background: none;
+}
+
+    .triangle:before {
+        content: "";
+        position: absolute;
+        height: 0;
+        width: 0;
+        border-style: solid;
+        border-width: 176px 75px 0 75px;
+    }
+
+.side1 {
+    -webkit-transform: translatex(0) rotatey(115.2deg) rotatez(90deg);
+    transform: translatex(0) rotatey(115.2deg) rotatez(90deg);
+}
+
+.side2 {
+    -webkit-transform: translatex(150px) rotatez(90deg) rotatex(64.8deg);
+    transform: translatex(150px) rotatez(90deg) rotatex(64.8deg);
+}
+
+.side3 {
+    -webkit-transform: translatez(0) rotatex(64.8deg);
+    transform: translatez(0) rotatex(64.8deg);
+}
+
+.side4 {
+    -webkit-transform: translatey(150px) rotatex(115.2deg);
+    transform: translatey(150px) rotatex(115.2deg);
+}
+
+.side1:before {
+    border-color: rgba(115, 115, 0, 0.3) transparent transparent transparent;
+}
+
+.side2:before {
+    border-color: rgba(20, 90, 225, 0.3) transparent transparent transparent;
+}
+
+.side3:before {
+    border-color: rgba(255, 0, 0, 0.3) transparent transparent transparent;
+}
+
+.side4:before {
+    border-color: rgba(0, 255, 255, 0.3) transparent transparent transparent;
+}
+
+
+@-webkit-keyframes turnPyramid {
+    100% {
+        -webkit-transform: rotateX(75deg) rotate(425deg);
+    }
+}
+
+@keyframes turnPyramid {
+    100% {
+        transform: rotateX(75deg) rotate(425deg);
+    }
+}
+
+@media (max-width: 300px) {
+    html {
+        font-size: 70%;
+    }
+
+    .stage {
+        -webkit-transform: scale(0.05);
+        transform: scale(0.05);
+    }
+}
+
+@media (max-width: 440px) {
+    h1 {
+        line-height: 55px;
+    }
+}
+
+@media (max-width: 460px) {
+    .stage {
+        position: absolute;
+        top: 25px;
+        left: 50%;
+        margin-left: -45px;
+    }
+
+    h1 {
+        margin-top: 50px;
+        text-align: center;
+    }
+}
+
+@media (max-width:600px) {
+    .stage {
+        -webkit-transform: scale(0.55);
+        transform: scale(0.55);
+        margin-right: 60px;
+    }
+}
+
+@media (min-width: 600px) {
+    html {
+        font-size: 80%;
+    }
+
+    .stage {
+        -webkit-transform: scale(0.68);
+        transform: scale(0.68);
+        margin-right: 80px;
+    }
+}
+
+@media (min-width: 880px) {
+    html {
+        font-size: 120%;
+    }
+
+    .stage {
+        -webkit-transform: scale(0.85);
+        transform: scale(0.85);
+        margin-right: 120px;
+    }
+}

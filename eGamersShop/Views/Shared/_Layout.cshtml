@@ -3,14 +3,18 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - eGamer's Online Shop Web Application</title>
+    <title>@ViewBag.Title - GamingGears Shop</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <link rel="stylesheet" href="~/Content/w3/w3.css" />
     <link rel="stylesheet" href="~/Content/myCSS/commonStyling.css"/>
-    
+    <link rel="stylesheet" href="~/Content/LayoutStyleSheet.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+   
+
 </head>
-<body style="background-image: linear-gradient(-225deg, #7085B6 0%, #87A7D9 50%, #DEF3F8 100%); ">
+<body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -19,19 +23,29 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Gears of War", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("GamingGears", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home") </li>
                 </ul>
                 <asp:LoginView runat="server" ViewStateMode="Disabled">
                     <AnonymousTemplate>
+                        <div class="nav navbar-nav navbar-right">
+                            <div class="search-container">
+                                <form action="#">
+                                    <input type="text" placeholder="Search..." name="search">
+                                    <button type="submit"><i class="fa fa-search"></i></button>
+                                </form>
+                            </div>
+                        </div>
+
+
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a runat="server" href="~/Account/CreateAccount">Create Account</a></li>
-                            <li><a runat="server" href="~/userLogin.aspx>Login">Log in</a></li>
+                            @*<li><a runat="server" href="~/Views/Home/Registration.cshtml">Sign Up</a></li>*@
+                            @*<li><a runat="server" href="~/Views/Home/LogIn.cshtml">Sign In</a></li>*@
                         </ul>
                     </AnonymousTemplate>
                     @*<LoggedInTemplate>
@@ -50,7 +64,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p style="color:white; ">&copy; @DateTime.Now.Year - EGamer's Online Shop Web App</p>
+            <p style="color:white; ">&copy; @DateTime.Now.Year - GamingGears Shop</p>
         </footer>
     </div>
 
