@@ -10,30 +10,30 @@
 <html>
 <head>
     <link rel="stylesheet" href="~/Content/w3/w3.css" />
+
+
 </head>
 <body>
     <form id="logIn" action="../Home/LogIn" method="post" enctype="multipart/form-data">
+        <br />
+        <br />
+
+
         <div style="height:1050px;" class="center-content-div">
-            <div style="float:left; width: 45%; padding: 10px; height: 1050px; background-color: #411F74; " class="center-content-div">
-                <br />
-                @*<div class="center-content-div" style="width:100%; ">
-                        <h2 class="primary-text-color" style="text-align:center">Sign Up</h2>
-                    </div>*@
 
-
-            </div>
-            <div style=" float: right; width: 55%; padding: 10px; height: 1050px; background-color: #EEEEEE; border: 1px solid lightgrey; justify-content:center">
-                <h2 class="center-content-div">Sign In</h2>
-                <div style="margin-left:150px; ">
+            <div style="width: 60%; padding: 10px; height: 450px; background-image: linear-gradient(to right top, #845ec2, #7789db, #81aee7, #a6ceec, #daebf2); justify-content: center" class="w3-panel w3-round-xlarge" ">
+                <br/>
+                <h2 class="center-content-div" style="color:white;"><strong>Sign In</strong></h2><hr />
+                <div style="margin-left:175px; ">
                     <br />
 
-                    Email Address <br />
+                    <span style="color:white;">Email Address</span> <br />
                     <input class="w3-input w3-border w3-round" type="email" id="txtEmail" name="txtEmail" required /><br />
-                    Password <br />
+                    <span style="color:white;">Password</span> <br />
                     <input class="w3-input w3-border w3-round" type="password" id="txtPassword" name="txtPassword" required />
-                    <br/>
-                    <br/>
-                    <input class="w3-button w3-round-xxlarge" id="btnLogIn" style="width: 270px; height:50px; background-color: #7769B9; color:white; " type="submit" value="Sign In" /><br />
+                    <br />
+                    <br />
+                    <input class="btn btn-primary shadow w3-round-xxlarge" id="btnLogIn" style="width: 270px; height:50px; color:white; " type="submit" value="Sign In" /><br />
                 </div>
             </div>
 

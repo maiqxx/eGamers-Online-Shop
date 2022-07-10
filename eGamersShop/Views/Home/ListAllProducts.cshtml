@@ -17,14 +17,14 @@
     ViewBag.Title = "ListAllProducts";
 
 }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<h2 class="primary-text-color">List of All Items</h2>
+
 
 @*<h3>
-    @Session["email"].ToString()
-</h3>*@
+        @Session["email"].ToString()
+    </h3>*@
 
-@*<h3>>@ViewBag.MyData</h3>*@
 
 @{
     string connDB = WebConfigurationManager.ConnectionStrings["connDB"].ConnectionString;
@@ -34,68 +34,80 @@
         db.Open();
         using (var cmd = db.CreateCommand())
         {
+
             cmd.CommandType = CommandType.Text;
+            //var search = ViewBag.Search;
             cmd.CommandText = "SELECT * FROM ITMTBL";
+
+
+
             using (var reader = cmd.ExecuteReader())
             {
                 if (reader.HasRows)
                 {
-                    <table style="text-align: center; border: 5px #411F74" border="1" class="w3-table-all">
-                        <thead>
-                            <tr style="background-color: #411F74; color: white ">
-                                <th width="15%" style="text-align:center; ">
-                                    Item Number
-                                </th>
 
-                                <th width="10%" style="text-align:center; ">
-                                    Quantity
-                                </th>
+                    <div class="container d-flex-row  text-center">
+                        <h2 class="primary-text-color">List of All Items</h2>
 
-                                <th width="15%" style="text-align:center;">
-                                    Price
-                                </th>
 
-                                <th style="text-align:center;">
-                                    Image
-                                </th>
+                        @while (reader.Read())
+                        {
+                            <div id="items" class="m-auto bg-light col-lg-12">
+                                <div class=" product-content justify-content-center clearfix">
 
-                            </tr>
+                                    <div class="row">
+                                        <div class="col-md-5 col-sm-12 col-xs-12">
+                                            <div class="product-image">
+                                                <img src="../Home/Image?filename=@HttpUtility.UrlEncode(reader["ITMIMG"]+"")" alt="200x200" class="img-responsive">  @*Image Source*@
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7 col-sm-12 col-xs-12">
+                                            <div class="product-deatil">
 
-                        </thead>
-                        <tbody>
-                            @while (reader.Read())
-                            {
-                                <tr class="items w3-padding-40 w3-hover">
-                                    <td class="itmnum">
-                                        @reader["ITMNUM"]
-                                    </td>
-                                    <td class="onhand w3-center class">
-                                        @reader["ITMONHAND"]
-                                    </td>
-                                    <td class="price w3-center class">
-                                        @reader["ITMPRICE"]
-                                    </td>
-                                    <td class="itmimage" style="padding-top:3em">
-                                        <center>
-                                            <img src="../Home/Image?filename=@HttpUtility.UrlEncode(reader["ITMIMG"] + "")" style="width:150px; height:150px;" /> <br />
-                                            @String.Format("{0:0.00}", reader["ITMNAME"])<br />
-                                            <input type="number" class="txtqty" name="txtqty" step="1" /><br /><br/>
-                                            <input type="button" class="btnCart" name="btnsbmt" value="Add to Cart" />
-                                        </center><br /><br />
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                                                <h5 class="name">
+                                                    @reader["ITMNAME"]
+                                                </h5>
+                                                <span>Available:</span>
+                                                <span id="onhand">@reader["ITMONHAND"]</span>
+                                                <p class="price-container">
+                                                    <span>₱</span>
+                                                    <span id="price">@reader["ITMPRICE"]</span>
+                                                </p>
+                                                <span class="tag1">@reader["ITMDATE"]</span>
+                                            </div>
+                                            <div class="description">
+                                                <p id="itmnum">@reader["ITMNUM"]</p>
+                                                <p class="mb-0"> @reader["ITMDESC"]</p>
+                                            </div>
+
+                                            <div class="row mt-3 justify-content-center">
+                                                <div class="col-4">
+                                                    <input type="number" class="form-control" id="txtqty" value="1">
+                                                </div>
+                                                <div class="col-6 text-center ">
+                                                    <button type="button" id="btnCart"
+                                                            name="btnsbmt" class="btnCart btn btn-primary">
+                                                        <i class="fa fa-shopping-cart"></i> &nbsp; Add to cart
+                                                    </button>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        }
+
+                    </div>
                 }
-                else
-                {
-                    <p>No Records Found!</p>
 
-                }
+                <button type="button" class="btn mx-auto btn-block w-25 btn-primary" onclick="location.href='@Url.Action("Payment", "Home")'">
+                    <span class="glyphicon glyphicon-shopping-cart"></span> View Cart
+                </button>
 
             }
-
         }
     }
 
@@ -104,37 +116,95 @@
 
 
 <script type="text/javascript" src="~/Scripts/jquery-3.6.0.min.js"></script>
-<script type="text/javascript">
 
+<script type="text/javascript">
     $(".btnCart").each(function () {
+
         $(this).click(function () {
-            var itmnum = $(this).closest('.items').find('.itmnum').html();
-            var onhand = $(this).closest('.items').find('.onhand').html();
-            var qty = $(this).closest('.items').find('.txtqty').val();
-            //var price = $(this).closest('.items').find('.itmprice').val();
-            /*var date = $(this).find('.datepicker').val();*/
+            var itmnum = $(this).closest('#items').find('#itmnum').html();
+            var onhand = $(this).closest('#items').find('#onhand').html();
+            var qty = $(this).closest('#items').find('#txtqty').val();
 
             if (parseInt(qty) <= parseInt(onhand)) {
-                //alert(qty + " " + itmnum);
-                $.post("../Home/Cart", {
-                    itemno: itmnum,
-                    qty: qty,
 
-                    //not done
+                $.post("../Home/Cart", {
+                    itmnum: itmnum,
+                    qty: qty
                 }, function (res) {
 
+
+                    if (res[0].exist) {
+                        alert("Item Added.");
+                    } else {
+
+                    }
+
+                    if (res[0].added) {
+                        alert("Succesfully Added.");
+                    }
+
+
                 });
-                alert('Added to Cart');
-            } else if (qty == "" || qty == 0) {
-
-                alert('Please input the quantity of item(s) you want to purchase.');
-
             } else {
-                alert('Insufficient stocks');
+                alert('Insufficient Stocks!');
             }
 
-            //alert(itmnum);
         });
     });
 
+
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<script type="text/javascript">
+
+        $(".btnCart").each(function () {
+            $(this).click(function () {
+                var itmnum = $(this).closest('.items').find('.itmnum').html();
+                var onhand = $(this).closest('.items').find('.onhand').html();
+                var qty = $(this).closest('.items').find('.txtqty').val();
+                //var price = $(this).closest('.items').find('.itmprice').val();
+                /*var date = $(this).find('.datepicker').val();*/
+
+                if (parseInt(qty) <= parseInt(onhand)) {
+                    //alert(qty + " " + itmnum);
+                    $.post("../Home/Cart", {
+                        itemno: itmnum,
+                        qty: qty,
+
+                        //not done
+                    }, function (res) {
+
+                    });
+                    alert('Added to Cart');
+                } else if (qty == "" || qty == 0) {
+
+                    alert('Please input the quantity of item(s) you want to purchase.');
+
+                } else {
+                    alert('Insufficient stocks');
+                }
+
+                //alert(itmnum);
+            });
+        });
+
+    </script>*@

@@ -12,6 +12,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Web.UI.HtmlControls;
 using System.Web.SessionState;
+using System.Collections;
 
 namespace eGamersShop.Controllers
 {
@@ -25,20 +26,6 @@ namespace eGamersShop.Controllers
         {
             return View();
 
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
         }
 
         public ActionResult Registration()
@@ -66,6 +53,12 @@ namespace eGamersShop.Controllers
         {
             return View();
         }
+
+        public ActionResult Payment()
+        {
+            return View();
+        }
+
 
         public ActionResult LogIn()
         {
@@ -329,24 +322,28 @@ namespace eGamersShop.Controllers
         public ActionResult Cart()
         {
             var data = new List<object>();
-            var itmcode = Request["itemno"].Trim();
-            var qty = Request["qty"];
+            var itmcode = Request["itmnum"];
+            var qty = Convert.ToInt32(Request["qty"]);
+            var onhand = 0;
+            var date = DateTime.Now.ToShortDateString();
             var price = "";
             string email = Session["email"].ToString();
             var itmimg = "";
             var itemname = "";
+
             using (var db1 = new SqlConnection(connDB))
             {
                 db1.Open();
-                using (var cmd = db1.CreateCommand())
+                using (var cmd1 = db1.CreateCommand())
                 {
-                    cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "SELECT * FROM ITMTBL WHERE ITMNUM='" + itmcode + "'";
-                    SqlDataReader reader = cmd.ExecuteReader();
+                    cmd1.CommandType = CommandType.Text;
+                    cmd1.CommandText = "SELECT * FROM ITMTBL WHERE ITMNUM ='" + itmcode + "'";
+                    SqlDataReader reader = cmd1.ExecuteReader();
                     if (reader.Read())
                     {
                         itmimg = reader["ITMIMG"].ToString();
                         price = reader["ITMPRICE"].ToString();
+                        onhand = Convert.ToInt32(reader["ITMONHAND"]);
                         itemname = reader["ITMNAME"].ToString();
 
                     }
@@ -355,73 +352,229 @@ namespace eGamersShop.Controllers
 
             }
             //Try to add the information in DB
-            using (var db = new SqlConnection(connDB))
+            using (var db2 = new SqlConnection(connDB))
             {
-                db.Open();
-                using (var cmd2 = db.CreateCommand())
+                db2.Open();
+                using (var cmd2 = db2.CreateCommand())
                 {
+                    int newOnhand = onhand - qty;
                     cmd2.CommandType = CommandType.Text;
-                    cmd2.CommandText = "SELECT * FROM ORDERTBL WHERE ITMNO ='" + itmcode + "'";
+                    cmd2.CommandText = "SELECT * FROM ORDERTBL WHERE ITMNO = '" + itmcode + "'";
                     SqlDataReader reader = cmd2.ExecuteReader();
                     if (reader.Read())
                     {
-                        data.Add(new
+                        int initialQty = Convert.ToInt32(reader["ITMQTY"]);
+                        int finalQty = initialQty + qty;
+
+                        if (finalQty <= onhand)
                         {
-                            exist = true,
-                        });
+                            using (var db3 = new SqlConnection(connDB))
+                            {
+                                db3.Open();
+                                using (var cmd3 = db3.CreateCommand())
+                                {
+                                    cmd3.CommandType = CommandType.Text;
+                                    cmd3.CommandText = "UPDATE ORDERTBL SET ITMQTY = '" + finalQty + "' WHERE ITMNO = '" + itmcode + "' ";
+                                    var ctr = cmd3.ExecuteNonQuery();
+                                    if (ctr >= 1)
+                                    {
+                                        data.Add(new
+                                        {
+                                            exist = true
+                                        });
+                                    }
+                                }
+
+                            }
+                        }
+                        else
+                        {
+                            data.Add(new
+                            {
+                                exist = false
+                            });
+                        }
+
                         return Json(data, JsonRequestBehavior.AllowGet);
 
                     }
                     else
                     {
-                        using (var db2 = new SqlConnection(connDB))
+                        using (var db3 = new SqlConnection(connDB))
                         {
-                            db2.Open();
-                            using (var cmd = db2.CreateCommand())
+                            db3.Open();
+                            using (var cmd = db3.CreateCommand())
                             {
-                                cmd.CommandText = "INSERT INTO ORDERTBL (ITEMCODE, ITMPRICE, ITEMQTY, EMAIL, ITEMNAME, ITEMIMG)"
+                                cmd.CommandText = "INSERT INTO ORDERTBL (ITEMCODE, ITEMQTY, ITEMPRICE, EMAIL, DTADDED, ITEMIMG)"
                                                                             + " VALUES ("
-                                                                            + " @NUM,"
-                                                                            + " @PRICE,"
-                                                                            + " @QTY,"
+                                                                            + " @ITMNO,"
+                                                                            + " @ITMQTY,"
+                                                                            + " @ITMPRICE,"
                                                                             + " @EMAIL,"
-                                                                            + " @INAME,"
+                                                                            + " @DTADDED,"
                                                                             + " @ITEMIMAGE)";
-                                cmd.Parameters.AddWithValue("@NUM", itmcode);
-                                cmd.Parameters.AddWithValue("@QTY", qty);
-                                cmd.Parameters.AddWithValue("@PRICE", price);
+                                cmd.Parameters.AddWithValue("@ITMNO", itmcode);
+                                cmd.Parameters.AddWithValue("@ITMQTY", qty);
+                                cmd.Parameters.AddWithValue("@ITMPRICE", price);
                                 cmd.Parameters.AddWithValue("@EMAIL", email);
-                                cmd.Parameters.AddWithValue("@INAME", itemname);
+                                cmd.Parameters.AddWithValue("@DTADDED", date);
                                 cmd.Parameters.AddWithValue("@ITEMIMAGE", itmimg);
                                 var ctr = cmd.ExecuteNonQuery();
                                 if (ctr >= 1)
                                 {
-                                    Response.Write("<script>alert('Add to Cart(hc)')</script>");
                                     data.Add(new
                                     {
-                                        price = price,
+                                        added = true,
+                                        prc = price,
                                         code = itmcode,
-                                        qty = qty
-
+                                        qtyx = qty,
+                                        dat = date
 
                                     });
 
                                 }
                                 else
                                 {
-                                    Response.Write("<script>alert('Failed to add the item to your cart.')</script>");
+                                    Response.Write("<script>alert('Cannot add to Cart.')</script>");
                                 }
                             }
                         }
                     }
-
-
-
-
                 }
             }
             return Json(data, JsonRequestBehavior.AllowGet);
         }
+
+
+        public ActionResult RemoveCart()
+        {
+
+            var itmcode = Request["itmnum"];
+            var cleaned = itmcode.Replace("\n", "").Replace("\r", "");
+            var itmnum = cleaned.Trim();
+
+
+            using (var db = new SqlConnection(connDB))
+            {
+                db.Open();
+                using (var cmd1 = db.CreateCommand())
+                {
+                    cmd1.CommandType = CommandType.Text; //DELETE FROM table_name WHERE condition;
+                    cmd1.CommandText = "DELETE FROM ORDERTBL WHERE ITMNO ='" + itmnum + "'";
+                    cmd1.ExecuteReader();
+
+                }
+                db.Close();
+
+            }
+
+
+            return Json(itmnum, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Pay()
+        {
+
+            int cartNum = 0;
+            var arlist1 = new ArrayList();
+            bool updated = false;
+
+
+
+            ////1st DB GET CART VALUE (ITMNUM, QTY)
+            var db = new SqlConnection(connDB);
+
+            db.Open();
+            var cmd1 = db.CreateCommand();
+
+            cmd1.CommandType = CommandType.Text;
+            cmd1.CommandText = "SELECT ITMQTY, ITMONHAND, ITMNUM  FROM ORDERTBL, ITMTBL WHERE ORDERTBL.ITMNO = ITMTBL.ITMNUM ";
+            var reader = cmd1.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+
+
+                    var itm = reader["ITMNUM"];
+                    string itmnum = itm.ToString();
+                    int onhand = Convert.ToInt32(reader["ITMONHAND"]);
+                    int cartqty = Convert.ToInt32(reader["ITMQTY"]);
+                    int newOnhnand = onhand - cartqty;
+
+                    var arlist2 = new ArrayList()
+                            {
+                                itm, newOnhnand
+                            };
+
+                    arlist1.AddRange(arlist2);
+
+
+                }
+            }
+
+
+            for (int i = 0; i < arlist1.Count; i++)
+            {
+
+                if (i % 2 == 0)
+                {
+                    var itmNo = arlist1[i];
+                    var newOnhand = arlist1[i + 1];
+                    //3rd DB UPDATE(ONHAND) VALUE FROM CART(DB1)
+                    using (var db3 = new SqlConnection(connDB))
+                    {
+                        db3.Open();
+                        using (var cmd3 = db3.CreateCommand())
+                        {
+                            cmd3.CommandType = CommandType.Text;
+                            cmd3.CommandText = "UPDATE ITMTBL SET ITMONHAND = '" + newOnhand + "' WHERE ITMNUM = '" + itmNo + "' ";
+                            SqlDataReader rdr = cmd3.ExecuteReader();
+                            if (rdr.Read())
+                            {
+                                var updatedVal = rdr["ITMONHAND"];
+                            }
+                        }
+                    }
+
+                }
+                updated = true;
+            }
+
+            bool deleted = false;
+            using (var db4 = new SqlConnection(connDB))
+            {
+                db4.Open();
+                using (var cmd = db4.CreateCommand())
+                {
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = "DELETE FROM ORDERTBL";
+                    SqlDataReader reader3 = cmd.ExecuteReader();
+                    if (reader3.Read())
+                    {
+                        //unsucssesful
+                    }
+                    else
+                    {
+                        deleted = true;
+                    }
+
+                }
+            }
+
+            return Json(deleted, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+
+
+
+
+
+
+
 
 
         public ActionResult SearchItem()

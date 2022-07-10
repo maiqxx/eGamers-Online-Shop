@@ -5,38 +5,48 @@
 <html>
 <head>
     <link rel="stylesheet" href="~/Content/w3/w3.css" />
+    <style type="text/css">
+        .con {
+            width: 50%;
+            padding: 10px;
+            height: 900px;
+            background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+            justify-content: center;
+        }
+
+
+    </style>
 </head>
 <body>
     <form id="productRecord" action="../Home/ProductEntry" method="post" enctype="multipart/form-data">
         <h2 class="primary-text-color">Product Entry</h2>
-        <div style="height:1100px;">
-            <div style="float: left; width: 2%; padding: 10px; height: 1000px; background-color: #411F74; ">
-            </div>
-            <div style="float: left; width: 35%; padding: 10px; height: 1000px; background-color: #EEEEEE; border: 1px solid lightgrey; ">
-                Product Number/Code <br />
-                <input class="w3-input w3-border w3-round" type="text" id="txtCode" name="txtCode" /><br />
-                Product Name <br />
-                <input class="w3-input w3-border w3-round" type="text" id="txtName" name="txtName" required /><br />
-                Product Description<br />
-                <textarea id="txtDesc" name="txtDesc" rows="2" cols="20" class="w3-input w3-border w3-round" type="text" style="width:180%;" required ></textarea>
-                <input type="file" id="uploadImg" name="uploadImg"
-                       accept="image/png,image/jpeg,image/jpg,image/gif,image/bmp"
-                       onchange="getImagePreview()" required />
-                <div id="preview">
+        <div style="height:1000px;" class="center-content-div">
+            <div class="con w3-panel w3-round-xlarge">
+                <div style="margin-left:130px;">
+                    <br/>
+                    <br/>
+                    Product Number/Code <br />
+                    <input class="w3-input w3-border w3-round" type="text" id="txtCode" name="txtCode" /><br />
+                    Product Name <br />
+                    <input class="w3-input w3-border w3-round" type="text" id="txtName" name="txtName" required /><br />
+                    Product Description<br />
+                    <textarea id="txtDesc" name="txtDesc" rows="2" cols="20" class="w3-input w3-border w3-round" type="text" style="width:180%;" required></textarea>
+                    <input type="file" id="uploadImg" name="uploadImg"
+                           accept="image/png,image/jpeg,image/jpg,image/gif,image/bmp"
+                           onchange="getImagePreview()" required />
+                    <div id="preview">
 
-                </div><br />
-                Price<br />
-                <input class="w3-input w3-border w3-round" type="number" id="txtprice" name="txtprice" min="0" value="0" step=".01" /><br />
-                Quantity on Hand<br />
-                <input class="w3-input w3-border w3-round" type="number" id="txtonhand" name="txtonhand" min="0" /><br />
-                Date<br />
-                <input class="w3-input w3-border w3-round" type="text" id="datepicker" name="datepicker" value="@DateTime.Now.ToShortDateString()" />
-                <br />
-
-                <input class="w3-button w3-round-xxlarge" id="btnSaveProd" style="width: 100px; background-color: #7769B9; color:white; " type="submit" value="Save" /><br />
-
-            </div>
-            <div style="float: left; width: 55%; padding: 10px; height: 1000px; background-color: #411F74; ">
+                    </div><br />
+                    Price<br />
+                    <input class="w3-input w3-border w3-round" type="number" id="txtprice" name="txtprice" min="0" value="0" step=".01" /><br />
+                    Quantity on Hand<br />
+                    <input class="w3-input w3-border w3-round" type="number" id="txtonhand" name="txtonhand" min="0" /><br />
+                    Date<br />
+                    <input class="w3-input w3-border w3-round" type="text" id="datepicker" name="datepicker" value="@DateTime.Now.ToShortDateString()" />
+                    <br />
+                        <input class="btn btn-primary" id="btnSaveProd" style="width: 280px; color:white; " type="submit" value="Save" /><br />
+                    
+                </div>
 
             </div>
         </div>
