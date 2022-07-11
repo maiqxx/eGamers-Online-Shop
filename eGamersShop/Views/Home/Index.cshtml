@@ -1,11 +1,35 @@
-﻿@{
+﻿
+@using System;
+@using System.Collections.Generic;
+@using System.Linq;
+@using System.Web;
+@using System.Web.Mvc;
+@using System.Data;
+@using System.Data.SqlClient;
+@using System.Configuration;
+@using System.Web.Configuration;
+@using System.IO;
+@using System.Drawing;
+@using System.Drawing.Imaging;
+@using System.Web.SessionState;
+
+
+@{
     ViewBag.Title = "Home Page";
 }
+
+<style type="text/css">
+    /* Make the image fully responsive */
+    .carousel-inner img {
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
 <br />
 <br />
 <br />
-<br />
-<br />
+
 
 <div class="jumbotron" style="background-image: linear-gradient(to right top, #845ec2, #7789db, #81aee7, #a6ceec, #daebf2);">
     <h1></h1>
@@ -16,7 +40,7 @@
         </div>
 
         <div class="stage" style="float:left;">
-            <div class="pyramid3d" >
+            <div class="pyramid3d">
                 <div class="triangle side1"></div>
                 <div class="triangle side2"></div>
                 <div class="triangle side3"></div>
@@ -26,10 +50,10 @@
     </h1>
 
     <h3 style='clear:both' class="subhead">
-        <br/>
+        <br />
         <p class="center-content-div" style="font-size:25px;">Gaming.Gears Shop is a marketplace enables gamers to buy items for their favourite game.</p>
     </h3>
-    
+
     <br />
     <br />
     <div class="center-content-div">
@@ -38,10 +62,24 @@
     </div>
 
 </div>
-
-
-
 <br />
+@*<span style="color: white">Latest Releases</span>
+<hr style="color:white;" />*@
+
+<section class="about" id="about">
+    <div class="content">
+        <div class="title"><span>About</span></div>
+        <div class="about-details">
+            <div class="right">
+                <div class="topic">Gaming.Gears Shop</div>
+                <p>Gaming.Gears Shop is a marketplace enables gamers to buy items for their favourite game.</p>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
 <br />
 <br />
 <br />

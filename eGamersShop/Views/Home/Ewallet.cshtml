@@ -1,0 +1,90 @@
+﻿@using System;
+@using System.Collections.Generic;
+@using System.Data;
+@using System.Data.SqlClient;
+@using System.IO;
+@using System.Linq;
+@using System.Web;
+@using System.Web.Configuration;
+
+
+@{
+    ViewBag.Title = "Ewallet";
+}
+
+<h2>Ewallet</h2>
+@{
+    string connDB = WebConfigurationManager.ConnectionStrings["connDB"].ConnectionString;
+    using (var db = new SqlConnection(connDB))
+    {
+
+        db.Open();
+        using (var cmd = db.CreateCommand())
+        {
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT MONEY AS BAL FROM USERTBL WHERE EMAIL='" + Session["email"].ToString() + "'";
+            SqlDataReader reader = cmd.ExecuteReader();
+            if (reader.Read())
+            {
+                Session["bal"] = reader["BAL"].ToString();
+            }
+        }
+
+    }
+
+
+
+    <table style="width:100%;">
+        <tr>
+            <td class="auto-style1">&nbsp;</td>
+            <td class="auto-style2">Ewallet</td>
+        </tr>
+        <tr>
+            <td class="auto-style6">Balance Amount:</td>
+            <td class="auto-style7">
+                <p id="txtBalance">@Session["bal"].ToString()</p>
+                @*<input type="text" id="txtBalance" Width="172"  value=""/>*@
+            </td>
+        </tr>
+        <tr>
+            <td class="auto-style3">
+                <button id="btnDeposit" class="auto-style8"> Deposit</button>
+            </td>
+            <td class="auto-style4">
+                <input type="text" id="txtDepoAmt" Width="172" />
+            </td>
+        </tr>
+
+    </table>
+}
+
+
+
+<script type="text/javascript" src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+    $(document).click(function () {
+        $("#btnDeposit").click(function () {
+
+            var balance = $("p").html();
+            var amount = $("#txtDepoAmt").val();
+
+            //alert("Deposit Successfully...");
+            if (parseInt(amount) > 0) {
+                $.post("../Home/Deposit", {
+                    amount: amount,
+                    balance: balance
+                });
+            }
+            else {
+                alert("Transaction Failed...");
+            }
+        });
+
+        $("#btnDeposit").dblclick(function () {
+            alert("Transaction Completed..");
+            window.location.href = "../Home/Ewallet";
+        });
+    });
+
+
+</script>

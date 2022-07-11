@@ -149,6 +149,7 @@
     <Content Include="Content\myCSS\ColorPallete.txt" />
     <Content Include="Content\myCSS\commonStyling.css" />
     <Content Include="Content\myCSS\CreateAccountStyle.css" />
+    <Content Include="Content\myCSS\ListAllProductsStyling.css" />
     <Content Include="Content\w3\w3.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -233,6 +234,7 @@
     <Content Include="Views\Home\AdminRegister.cshtml" />
     <Content Include="Views\Home\AdminLogin.cshtml" />
     <Content Include="Views\Home\AdminPage.cshtml" />
+    <Content Include="Views\Home\Ewallet.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />

@@ -27,9 +27,23 @@ namespace eGamersShop.Controllers
 
         }
 
+        public ActionResult About()
+        {
+            return View();
 
-        
+        }
+        public ActionResult Contact()
+        {
+            return View();
+
+        }
+
         public ActionResult ProductEntry()
+        {
+            return View();
+        }
+
+        public ActionResult UpdateProduct()
         {
             return View();
         }
@@ -44,15 +58,16 @@ namespace eGamersShop.Controllers
             return View();
         }
 
-
-        public ActionResult UpdateProduct()
+        public ActionResult Payment()
         {
             return View();
         }
 
-        public ActionResult Payment()
+        public ActionResult LogOut()
         {
-            return View();
+            Session.Abandon();
+            return RedirectToAction("LogIn", "Home");
+
         }
 
 
@@ -89,8 +104,6 @@ namespace eGamersShop.Controllers
                         SqlDataReader reader = cmd.ExecuteReader();
                         if (reader.Read())
                         {
-
-
                             Session["email"] = reader["EMAIL"].ToString();
                             Response.Redirect("AdminPage");
                         }
@@ -290,11 +303,6 @@ namespace eGamersShop.Controllers
             var username = Request["txtUsername"];
             var password = Request["txtPassword"];
 
-
-            //add try catch
-            //add insert sql command
-            //get selected value for role
-
             try
             {
                 using (var db = new SqlConnection(connDB))
@@ -358,8 +366,6 @@ namespace eGamersShop.Controllers
             return View();
         }
         /*  END OF USER/CUSTOMER METHODS    */
-
-
 
 
         //PRODUCT ENTRY
@@ -479,7 +485,6 @@ namespace eGamersShop.Controllers
         }
 
 
-
         //Method/button for add to cart from ListAllProducts.cshtml
         public ActionResult Cart()
         {
@@ -491,23 +496,7 @@ namespace eGamersShop.Controllers
             var price = "";
             //string email = Session["email"].ToString();
             var itmimg = "";
-            var itemname = "";
-
-            //try
-            //{
-            //    if (Session["email"] != null)
-            //    {
-            //       //return RedirectToAction("Index", "Home", new { email = Session["email"].ToString() });
-            //    }
-            //    else
-            //    {
-            //        return View();
-            //    }
-            //}
-            //catch (Exception)
-            //{
-
-            //}
+            var itemname = Request["name"].Trim();
 
             using (var db1 = new SqlConnection(connDB))
             {
@@ -584,20 +573,22 @@ namespace eGamersShop.Controllers
                             db3.Open();
                             using (var cmd = db3.CreateCommand())
                             {
-                                cmd.CommandText = "INSERT INTO ORDERTBL2 (ITMNO, ITMQTY, ITMPRICE, ITMIMG, DTADDED, EMAIL)"
-                                                                            + " VALUES ("
-                                                                            + " @ITMNO,"
-                                                                            + " @ITMQTY,"
-                                                                            + " @ITMPRICE,"
-                                                                            + " @ITEMIMAGE,"
-                                                                            + " @DTADDED,"
-                                                                            + " @EMAIL)";
+                                cmd.CommandText = "INSERT INTO ORDERTBL2 (ITMNO, ITMQTY, ITMPRICE, ITMIMG, DTADDED, EMAIL, ITMNAME)"
+                                                                        + " VALUES ("
+                                                                        + " @ITMNO,"
+                                                                        + " @ITMQTY,"
+                                                                        + " @ITMPRICE,"
+                                                                        + " @ITEMIMAGE,"
+                                                                        + " @DTADDED,"
+                                                                        + " @EMAIL,"
+                                                                        + " @NAME)";
                                 cmd.Parameters.AddWithValue("@ITMNO", itmcode);
                                 cmd.Parameters.AddWithValue("@ITMQTY", qty);
                                 cmd.Parameters.AddWithValue("@ITMPRICE", price);
                                 cmd.Parameters.AddWithValue("@ITEMIMAGE", itmimg);
                                 cmd.Parameters.AddWithValue("@DTADDED", date);
                                 cmd.Parameters.AddWithValue("@EMAIL", Session["email"]);
+                                cmd.Parameters.AddWithValue("@NAME", itemname);
                                 var ctr = cmd.ExecuteNonQuery();
                                 if (ctr > 0)
                                 {
@@ -685,12 +676,11 @@ namespace eGamersShop.Controllers
                     int newOnhnand = onhand - cartqty;
 
                     var arlist2 = new ArrayList()
-                            {
-                                itm, newOnhnand
-                            };
+                    {
+                         itm, newOnhnand
+                    };
 
                     arlist1.AddRange(arlist2);
-
 
                 }
             }
@@ -735,7 +725,7 @@ namespace eGamersShop.Controllers
                     SqlDataReader reader3 = cmd.ExecuteReader();
                     if (reader3.Read())
                     {
-                        //unsucssesful
+                        //unsuccessful
                     }
                     else
                     {
@@ -746,21 +736,21 @@ namespace eGamersShop.Controllers
             }
 
             return Json(deleted, JsonRequestBehavior.AllowGet);
-
         }
 
-
+        //Admin -> Search Item to delete or update
         public ActionResult SearchItem()
         {
             var data = new List<object>();
             var itmcode = Request["itemcode"];
+            
             using (var db = new SqlConnection(connDB))
             {
                 db.Open();
                 using (var cmd = db.CreateCommand())
                 {
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "SELECT * FROM ITMTBL WHERE ITMNUM='" + itmcode + "'";
+                    cmd.CommandText = "SELECT * FROM ITMTBL WHERE ITMNUM ='" + itmcode + "'";
                     SqlDataReader reader = cmd.ExecuteReader();
                     if (reader.Read())
                     {
@@ -769,7 +759,8 @@ namespace eGamersShop.Controllers
                             mess = 0,
                             desc = reader["itmname"].ToString(),
                             price = reader["itmprice"].ToString(),
-                        });
+                            qty = reader["itmonhand"].ToString(),
+                        }); 
                     }
                     else
                     {
@@ -783,6 +774,7 @@ namespace eGamersShop.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
+        //Admin -> Update Item 
         public ActionResult UpdateItem()
         {
             var data = new List<object>();
@@ -800,11 +792,11 @@ namespace eGamersShop.Controllers
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = "UPDATE ITMTBL SET "
                         + " ITMNAME ='" + itmdesc + "',"
-                        + " ITMPRICE ='" + itmprice + "'"
+                        + " ITMPRICE ='" + itmprice + "',"
                         + " ITMONHAND ='" + itemqty + "'"
                         + " WHERE ITMNUM ='" + itmcode + "'";
                     var ctr = cmd.ExecuteNonQuery();
-                    if (ctr > 0)
+                    if (ctr >= 1)
                     {
                         data.Add(new
                         {
@@ -824,9 +816,118 @@ namespace eGamersShop.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
-        
-    
 
+        //Admin -> Delete Item 
+        public ActionResult DeleteItem()
+        {
+            var data = new List<object>();
+            var itmcode = Request["itemcode"];
+
+            using (var db = new SqlConnection(connDB))
+            {
+                db.Open();
+                using (var cmd = db.CreateCommand())
+                {
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = "DELETE FROM ITMTBL WHERE ITMNUM = '"+ itmcode + "' ";
+                    var ctr = cmd.ExecuteNonQuery();
+                    if (ctr >= 1)
+                    {
+                        Response.Write("<script>alert('Item successfully deleted!')</script>");
+                        Response.Redirect("AdminPage");
+                    }
+                    else
+                    {
+                        Response.Write("<script>alert('Unable to remove this item.')</script>");
+                    }
+                }
+            }
+
+
+                return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public ActionResult ItemSearch()
+        {
+            var data = new List<object>();
+            var itmSearch = Request["searchItem"];
+
+            using (var db = new SqlConnection(connDB))
+            {
+                db.Open();
+                using (var cmd = db.CreateCommand())
+                {
+                    cmd.CommandText = "SELECT * FROM ITMTBL WHERE ITMNAME ='" + itmSearch + "'";
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        data.Add(new
+                        {
+                            mess = 0,
+                            desc = reader["itmname"].ToString(),
+                            price = reader["itmprice"].ToString(),
+                            qty = reader["itmonhand"].ToString(),
+                        });
+                    }
+                    else
+                    {
+                        data.Add(new
+                        {
+                            mess = 1,
+                        });
+                    }
+                }
+            }
+
+
+                return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Ewallet()
+        {
+            return View();
+
+        }
+
+        public ActionResult Deposit()
+        {
+            var data = new List<object>();
+            var depoAmt = Request["amount"];
+            string email = Session["email"].ToString();
+            var balance = Request["balance"];
+            double currBalance = 0.00;
+            try
+            {
+                currBalance = Convert.ToDouble(balance) + Convert.ToDouble(depoAmt);
+                using (var db = new SqlConnection(connDB))
+                {
+                    db.Open();
+                    using (var cmd = db.CreateCommand())
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.CommandText = "UPDATE USERTBL SET MONEY='" + currBalance + "' WHERE EMAIL='" + email + "'";
+                        var ctr = cmd.ExecuteNonQuery();
+                        if (ctr >= 1)
+                        {
+                            Response.Write("<script>alert('Transaction Completed...') </ script >");
+
+                        }
+                        else
+                        {
+                            Response.Write("<script>alert('Plaese try again...') </ script >");
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                Response.Write("<script>alert('Plaese try again...') </ script >");
+            }
+            return Json(data, JsonRequestBehavior.AllowGet);
+
+
+        }
 
     }
 }

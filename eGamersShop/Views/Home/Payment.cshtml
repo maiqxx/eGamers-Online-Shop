@@ -23,7 +23,7 @@
 }
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<h2 style="color:white;">Payment</h2>
+@*<h2 style="color:white;">My Cart</h2>*@
 
 @{
 
@@ -45,14 +45,15 @@
 
                     <div class="container">
                         <div class="row">
-                            <div class="col-sm-12 col-md-10 col-md-offset-1 mx-auto">
-
+                            <div class="col-sm-12 col-md-10 col-md-offset-1 mx-au7to">
+                                <br/>
+                                <br/>
                                 <div class="section-title mb-50">
-                                    <span style="color:white;">LATEST RELEASES</span>
-                                    <h2 style="color:white;">Create &amp; <span style="color:white;">Manage</span></h2>
+                                    @*<span style="color:white;">My Cart</span>*@
+                                    <h2 style="color:white;"><a href="@Url.Action("ListAllProducts", "Home")" class="btn btn-link" role="button"><<</a>My <span style="color:white;">Cart</span></h2>
                                 </div>
 
-
+                                 
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
@@ -81,7 +82,7 @@
                                                     </div>
                                                 </td>
                                                 <td class="col-sm-1 col-md-1" style="text-align: center">
-                                                    <input type="email" class="form-control" id="QTY" value="@reader["ITMQTY"]">
+                                                    <input type="number" class="form-control" id="QTY" value="@reader["ITMQTY"]">
                                                 </td>
                                                 <td id="price" class="col-sm-1 col-md-1 text-center"><strong style="color:white;">@reader["ITMPRICE"]</strong></td>
 
@@ -107,8 +108,8 @@
                                             <td>   </td>
                                             <td>   </td>
                                             <td>
-                                                <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("ListAllProducts", "Home")'">
-                                                    <span class="glyphicon glyphicon-shopping-cart" style="width:140px; height: 40px;"></span> Buy More
+                                                <button type="button" class="btn btn-primary" style="width:140px; height: 45px;" onclick="location.href='@Url.Action("ListAllProducts", "Home")'">
+                                                    <span class="glyphicon glyphicon-shopping-cart" ></span> Buy More
                                                 </button>
                                             </td>
                                             <td>
@@ -143,7 +144,13 @@
                     itmnum: itmnum
                 }, function (itmnum) {
 
-                    alert("ITEM " + itmnum + " has been deleted!");
+                    /*alert("ITEM " + itmnum + " has been deleted!");*/
+
+                    Swal.fire(
+                        'Item removed from cart!',
+                        'That thing is still around?',
+                        'warning'
+                    )
                     location.reload();
 
                 });
@@ -165,7 +172,7 @@
         function accCreated() {
             Swal.fire({
                 title: 'PAYMENT SUCCESSFUL!',
-                text: 'Thank you for buying our products',
+                text: 'Thank you for purchasing our items!',
                 icon: 'success',
                 confirmButtonText: 'BUY MORE',
             }).then((result) => {

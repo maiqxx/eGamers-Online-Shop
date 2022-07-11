@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
     <body class="pt-0">
@@ -28,21 +29,11 @@
             <div class="collapse navbar-collapse " id="navbarColor01">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item pl-4">   <a class="nav-link keychainify-checked" onclick="location.href='@Url.Action("Index", "Home")'">Home</a></li>
-                    <li class="nav-item pl-4">   <a class="nav-link keychainify-checked" onclick="location.href='@Url.Action("About", "Home")'">About</a></li>
-                    <li class="nav-item pl-4">   <a class="nav-link keychainify-checked" onclick="location.href='@Url.Action("Contact", "Home")'">Contact</a></li>
-                    @*<li class="nav-item pl-4"><a class="nav-link keychainify-checked" onclick="location.href='@Url.Action("ProductEntry", "Home")'">Product Entry</a></li>*@
-                    @*<li class="nav-item spl-4"><a class="nav-link keychainify-checked" onclick="location.href='@Url.Action("ListAllProducts", "Home")'">List All Products</a></li>*@
-
-                    @*<li class="pl-4">@Html.ActionLink("My Cart", "Mycart", "Home")</li>*@
+                    <li class="nav-item pl-4">   <a class="nav-link keychainify-checked" href="#about" @*onclick="location.href='@Url.Action("About", "Home")'"*@>About</a></li>
+                    <li class="nav-item pl-4">   <a class="nav-link keychainify-checked" href="#contact" @*onclick="location.href='@Url.Action("Contact", "Home")'"*@>Contact</a></li>
+                    
                 </ul>
-                <form class="d-flex form-inline" action="#">
-
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                    <button class="btn btn-primary" type="submit">Search</button>
-
-                    @*<input type="button" value="Log In" class="btn btn-primary mx-2 " onclick="location.href='@Url.Action("LogIn", "Home")'" />*@
-                    @*<input type="button" value="Sign Up" class="btn btn-secondary" onclick="location.href='@Url.Action("Registration", "Home")'" />*@
-                </form>
+               
             </div>
         </nav>
 
