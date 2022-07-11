@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Registration";
+    ViewBag.Title = "AdminRegister";
 }
 
 <html>
@@ -10,19 +10,18 @@
         input {
             height: 35px;
         }
-
     </style>
 </head>
 <body>
-    <form id="registration" action="../Home/Registration" method="post" enctype="multipart/form-data">
+    <form id="adminRegister" action="../Home/AdminRegister" method="post" enctype="multipart/form-data">
         <br />
         <br />
 
         <div style="height:1050px;" class="center-content-div">
 
-            <div style="width:80%; padding: 10px; height: 600px; background-image: linear-gradient(to right top, #845ec2, #7789db, #81aee7, #a6ceec, #daebf2); justify-content: center" class="w3-panel w3-round-xlarge">
+            <div style="width:80%; padding: 10px; height: 550px; background-image: linear-gradient(to right top, #845ec2, #7789db, #81aee7, #a6ceec, #daebf2); justify-content: center" class="w3-panel w3-round-xlarge">
                 <br />
-                <h2 class="center-content-div" style="color:white;"><strong>Sign Up</strong> </h2> <hr />
+                <h2 class="center-content-div" style="color:white;"><strong>Register as Admin</strong> </h2> <hr />
                 <div style="margin-left:120px; ">
                     <br />
 
@@ -36,46 +35,31 @@
                             <td><input class="w3-input w3-border w3-round" type="text" id="txtFirstname" name="txtFirstname" required /></td>
                         </tr>
                         <tr>
-                            <td style="color:white;">Address</td>
-                            <td style="color:white;">Date of Birth </td>
-                        </tr>
-                        <tr>
-                            <td><input class="w3-input w3-border w3-round" type="text" id="txtAddress" name="txtAddress" required /></td>
-                            <td><input class="w3-input w3-border w3-round" type="date" id="txtBdate" name="txtBdate" required /></td>
-                        </tr>
-                        <tr>
-                            <td style="color:white;">Contact Number</td>
                             <td style="color:white;">Email Address</td>
-                        </tr>
-                        <tr>
-                            <td><input class="w3-input w3-border w3-round" type="text" id="txtContact" name="txtContact" /></td>
-                            <td><input class="w3-input w3-border w3-round" type="email" id="txtEmail" name="txtEmail" required /></td>
-                        </tr>
-                        <tr>
                             <td style="color:white;">Username</td>
-                            <td style="color:white;">Password</td>
+
                         </tr>
                         <tr>
+                            <td><input class="w3-input w3-border w3-round" type="email" id="txtEmail" name="txtEmail" required /></td>
                             <td><input class="w3-input w3-border w3-round" type="text" id="txtUsername" name="txtUsername" required /></td>
+                        </tr>
+                        <tr>
+                            <td style="color:white;">Password</td>
+                            <td style="color:white;">Confirm Password</td>
+                        </tr>
+                        <tr>
                             <td>
                                 <input class="w3-input w3-border w3-round" type="password" id="txtPassword" name="txtPassword" required />
                                 <span id="password_strength" style=" color: red; "></span>
                             </td>
-                        </tr>
-                        <tr>
-                            <td style="color:white;">Confirm Password</td>
-                            <td>&nbsp;</td>
-                        </tr>
-                        <tr>
                             <td>
                                 <input class="w3-input w3-border w3-round" type="password" id="txtConPassword" name="txtConPassword" required />
                                 <span id="CheckPasswordMatch"></span><br />
                             </td>
-                            <td>&nbsp;</td>
                         </tr>
 
                         <tr>
-                            <td><a href="@Url.Action("LogIn","Home")" style="width:150px; color:white">Already have an account?</a></td>
+                            <td><a href="@Url.Action("AdminLogin","Home")" style="width:150px; color:white">Already have an account?</a></td>
                             <td><input class="btn btn-primary shadow w3-round-xxlarge" id="btnRegister" style="width: 270px; height:50px;  color:white; " type="submit" value="Sign Up" /></td>
                         </tr>
 
@@ -93,5 +77,3 @@
 
 </body>
 </html>
-
-

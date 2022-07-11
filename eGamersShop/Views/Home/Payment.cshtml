@@ -1,4 +1,5 @@
 ﻿
+
 @using System;
 @using System.Collections.Generic;
 @using System.Linq;
@@ -17,11 +18,12 @@
 
 
 @{
+    
     ViewBag.Title = "Payment";
 }
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<h2>Payment</h2>
+<h2 style="color:white;">Payment</h2>
 
 @{
 
@@ -35,7 +37,7 @@
         using (var cmd = db.CreateCommand())
         {
             cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "SELECT * FROM ORDERTBL";
+            cmd.CommandText = "SELECT * FROM ORDERTBL2";
             using (var reader = cmd.ExecuteReader())
             {
                 if (reader.HasRows)
@@ -46,18 +48,18 @@
                             <div class="col-sm-12 col-md-10 col-md-offset-1 mx-auto">
 
                                 <div class="section-title mb-50">
-                                    <span>LATEST RELEASES</span>
-                                    <h2>Create &amp; <span>Manage</span></h2>
+                                    <span style="color:white;">LATEST RELEASES</span>
+                                    <h2 style="color:white;">Create &amp; <span style="color:white;">Manage</span></h2>
                                 </div>
 
 
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Product</th>
-                                            <th>Quantity</th>
-                                            <th class="text-center">Price</th>
-                                            <th class="text-center">Total</th>
+                                            <th style="color:white;">Product</th>
+                                            <th style="color:white;">Quantity</th>
+                                            <th class="text-center" style="color:white;">Price</th>
+                                            <th class="text-center" style="color:white;">Total</th>
                                             <th> </th>
                                         </tr>
                                     </thead>
@@ -74,16 +76,16 @@
                                                         <a class="thumbnail pull-left" href="#"> <img class="media-object" src="../Home/Image?filename=@HttpUtility.UrlEncode(reader["ITMIMG"]+"")" style="width: 72px; height: 72px;"> </a>
                                                         <div class="media-body">
 
-                                                            <h5 class="itmnum media-heading">@reader["ITMNO"]</h5>
+                                                            <h5 class="itmnum media-heading" style="color:white;">@reader["ITMNO"]</h5>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td class="col-sm-1 col-md-1" style="text-align: center">
                                                     <input type="email" class="form-control" id="QTY" value="@reader["ITMQTY"]">
                                                 </td>
-                                                <td id="price" class="col-sm-1 col-md-1 text-center"><strong>@reader["ITMPRICE"]</strong></td>
+                                                <td id="price" class="col-sm-1 col-md-1 text-center"><strong style="color:white;">@reader["ITMPRICE"]</strong></td>
 
-                                                <td class="col-sm-1 col-md-1 text-center"><strong>@subTotal</strong></td>
+                                                <td class="col-sm-1 col-md-1 text-center"><strong style="color:white;">@subTotal</strong></td>
                                                 <td class="col-sm-1 col-md-1">
                                                     <button type="button" id="btnCancel" class="btnCancel btn btn-danger">
                                                         <span class="glyphicon glyphicon-remove"></span> Remove
@@ -97,8 +99,8 @@
                                             <td>   </td>
                                             <td>   </td>
                                             <td>   </td>
-                                            <td><h3>Total</h3></td>
-                                            <td class="text-right"><h3 class="thisPrice">@totalPrice</h3></td>
+                                            <td><h3 style="color:white;">Total</h3></td>
+                                            <td class="text-right"><h3 class="thisPrice" style="color:white;">@totalPrice</h3></td>
                                         </tr>
                                         <tr>
                                             <td>   </td>
@@ -106,7 +108,7 @@
                                             <td>   </td>
                                             <td>
                                                 <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("ListAllProducts", "Home")'">
-                                                    <span class="glyphicon glyphicon-shopping-cart"></span> Buy More
+                                                    <span class="glyphicon glyphicon-shopping-cart" style="width:140px; height: 40px;"></span> Buy More
                                                 </button>
                                             </td>
                                             <td>

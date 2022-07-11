@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewBag.Title = "AdminLogin";
+}
+
+@*<h2>AdminLogin</h2>*@
+
+<html>
+<head>
+    <link rel="stylesheet" href="~/Content/w3/w3.css" />
+
+
+</head>
+<body>
+    <form id="logIn" action="../Home/AdminLogin" method="post" enctype="multipart/form-data">
+        <br />
+        <br />
+
+
+        <div style="height:1050px;" class="center-content-div">
+
+            <div style="width: 60%; padding: 10px; height: 450px; background-image: linear-gradient(to right top, #845ec2, #7789db, #81aee7, #a6ceec, #daebf2); justify-content: center" class="w3-panel w3-round-xlarge" ">
+                <br />
+                <h2 class="center-content-div" style="color:white;"><strong>Log In as Admin</strong></h2><hr />
+                <div style="margin-left:175px; ">
+                    <br />
+
+                    <span style="color:white;">Email Address</span> <br />
+                    <input class="w3-input w3-border w3-round" type="email" id="txtEmail" name="txtEmail" required /><br />
+                    <span style="color:white;">Password</span> <br />
+                    <input class="w3-input w3-border w3-round" type="password" id="txtPassword" name="txtPassword" required />
+                    <br />
+                    <br />
+                    <input class="btn btn-primary shadow w3-round-xxlarge" id="btnLogIn" style="width: 270px; height:50px; color:white; " type="submit" value="Sign In" /><br />
+                </div>
+            </div>
+
+
+        </div>
+    </form>
+
+    <script type="text/javascript" src="~/Scripts/jquery-3.6.0.min.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/myScripts/Registration.js"></script>*@
+
+</body>
+</html>

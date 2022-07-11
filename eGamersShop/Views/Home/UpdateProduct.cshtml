@@ -16,7 +16,11 @@
     ViewBag.Title = "UpdateProduct";
 }
 
-<h2 class="primary-text-color">Update Product</h2>
+<h2 class="primary-text-color">
+    <a href="@Url.Action("AdminPage", "Home")" class="btn btn-info btn-sm">
+    <span class="glyphicon glyphicon-circle-arrow-left"></span>Back
+    </a>&nbsp;Update Item
+</h2>
 <hr />
 <br />
 <html>
@@ -30,10 +34,14 @@
             <input type="text" id="itmcde" name="itmcde" required />&nbsp;&nbsp;&nbsp;
             <input type="button" id="btnSearch" name="btnSearch" value="Search" />
             <br /><br />
-            Product  Description <br />
+            Product  Name <br />
             <input type="text" id="itmdesc" name="itmdesc" required /><br /><br />
             Product  Price <br />
             <input type="text" id="itmprice" name="itmprice" required /><br /><br />
+
+            Product Quantity <br />
+            <input type="text" id="itmonhand" name="itmonhand" required /><br /><br />
+
             <input type="button" id="btnEdit" name="btnEdit" value="Edit" class="w3-button w3-round-xxlarge" style="width: 100px; background-color: #7769B9; color:white;" />
             <input type="button" id="btnUpdate" name="btnUpdate" value="Update" class="w3-button w3-round-xxlarge" style="width: 100px; background-color: #7769B9; color:white;" />
 

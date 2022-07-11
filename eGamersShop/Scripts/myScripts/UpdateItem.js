@@ -4,6 +4,7 @@ $().ready(function () {
     $("#btnUpdate").hide();
     $("#itmdesc").attr("disabled", "disabled");
     $("#itmprice").attr("disabled", "disabled");
+    $("#itmonhand").attr("disabled", "disabled");
 
     $("#btnSearch").click(function () {
 
@@ -15,7 +16,7 @@ $().ready(function () {
         }, function (res) {
             if (res[0].mess == 0) {
                 $("#btnEdit").removeAttr("disabled");
-                $("#btnEdit").show();//I0000000003
+                $("#btnEdit").show();
                 $("#itmdesc").val(res[0].desc);
                 $("#itmprice").val(res[0].price);
             } else {
@@ -30,7 +31,7 @@ $().ready(function () {
         $("#itmcde").attr("disabled", true);
         $("#itmdesc").removeAttr("disabled");
         $("#itmprice").removeAttr("disabled");
-        alert($("#itmdesc").val());
+        //alert($("#itmdesc").val());
     });
 
     $("#btnUpdate").click(function () {
@@ -38,14 +39,16 @@ $().ready(function () {
         var itemdesc = $("#itmdesc").val();
         var itemprice = $("#itmprice").val();
         var itemcode = $("#itmcde").val();
+        var itmonhand = $("#itmonhand").val();
 
         $.post("../Home/UpdateItem", {
             itemdesc: itemdesc,
             itemprice: itemprice,
-            itemcode: itemcode
+            itemcode: itemcode,
+            itmonhand: itmonhand
         }, function (res) {
             if (res[0].mess == 0) {
-                alert("Successfully Updated");
+                alert("Successfully Updated!");
                 $("#btnUpdate").hide();
                 $("#itmcde").removeAttr("disabled").val();
                 $("#itmdesc").attr("disabled", true).val();

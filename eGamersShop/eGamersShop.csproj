@@ -230,6 +230,9 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Home\Payment.cshtml" />
+    <Content Include="Views\Home\AdminRegister.cshtml" />
+    <Content Include="Views\Home\AdminLogin.cshtml" />
+    <Content Include="Views\Home\AdminPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />

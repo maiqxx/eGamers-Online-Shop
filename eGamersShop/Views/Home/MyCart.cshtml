@@ -28,7 +28,7 @@
         using (var cmd = db.CreateCommand())
         {
             cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "SELECT * FROM ORDERTBL WHERE EMAIL='" + Session["email"].ToString() + "'";
+            cmd.CommandText = "SELECT * FROM ORDERTBL2 WHERE EMAIL='" + Session["email"].ToString() + "'";
             using (var reader = cmd.ExecuteReader())
             {
                 if (reader.HasRows)

@@ -19,12 +19,20 @@
 </head>
 <body>
     <form id="productRecord" action="../Home/ProductEntry" method="post" enctype="multipart/form-data">
-        <h2 class="primary-text-color">Product Entry</h2>
+
+        <h2 class="primary-text-color">
+            <a href="@Url.Action("AdminPage","Home")" class="btn btn-info btn-sm">
+                <span class="glyphicon glyphicon-circle-arrow-left"></span>Back
+            </a>&nbsp;Product Entry
+        </h2>
+        <hr />
+
+
         <div style="height:1000px;" class="center-content-div">
             <div class="con w3-panel w3-round-xlarge">
                 <div style="margin-left:130px;">
-                    <br/>
-                    <br/>
+                    <br />
+                    <br />
                     Product Number/Code <br />
                     <input class="w3-input w3-border w3-round" type="text" id="txtCode" name="txtCode" /><br />
                     Product Name <br />
@@ -44,8 +52,8 @@
                     Date<br />
                     <input class="w3-input w3-border w3-round" type="text" id="datepicker" name="datepicker" value="@DateTime.Now.ToShortDateString()" />
                     <br />
-                        <input class="btn btn-primary" id="btnSaveProd" style="width: 280px; color:white; " type="submit" value="Save" /><br />
-                    
+                    <input class="btn btn-primary" id="btnSaveProd" style="width: 280px; color:white; " type="submit" value="Save" /><br />
+
                 </div>
 
             </div>

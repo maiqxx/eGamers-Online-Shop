@@ -11,12 +11,11 @@ using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Web.UI.HtmlControls;
-using System.Web.SessionState;
 using System.Collections;
 
 namespace eGamersShop.Controllers
 {
-    [SessionState(SessionStateBehavior.Default)]
+
     public class HomeController : Controller
     {
         string connDB = WebConfigurationManager.ConnectionStrings["connDB"].ConnectionString;
@@ -28,10 +27,7 @@ namespace eGamersShop.Controllers
 
         }
 
-        public ActionResult Registration()
-        {
-            return View();
-        }
+
         
         public ActionResult ProductEntry()
         {
@@ -60,21 +56,22 @@ namespace eGamersShop.Controllers
         }
 
 
-        public ActionResult LogIn()
+        /*   ADMIN METHODS REGISTRATIONS  */
+        public ActionResult AdminLogin()
         {
+
             if (Session["email"] != null)
             {
-                return RedirectToAction("Registration", "Home", new { email = Session["email"].ToString() });
+                return RedirectToAction("AdminRegister", "Home", new { email = Session["email"].ToString() });
             }
             else
             {
                 return View();
             }
-            //return View();
         }
 
         [HttpPost]
-        public ActionResult LogIn(FormCollection collection)
+        public ActionResult AdminLogin(FormCollection collection)
         {
             var email = Request["txtEmail"];
             var password = Request["txtPassword"];
@@ -82,23 +79,20 @@ namespace eGamersShop.Controllers
             try
             {
 
-                Response.Write("<script>alert(email)</script>");
-
                 using (var db = new SqlConnection(connDB))
                 {
                     db.Open();
                     using (var cmd = db.CreateCommand())
                     {
                         cmd.CommandType = CommandType.Text;
-                        cmd.CommandText = "SELECT * FROM USERTBL WHERE EMAIL = '" + email + "' AND PASSWORD = '" + password + "' ";
+                        cmd.CommandText = "SELECT * FROM ADMIN WHERE EMAIL = '" + email + "' AND PASSWORD = '" + password + "' ";
                         SqlDataReader reader = cmd.ExecuteReader();
                         if (reader.Read())
                         {
 
+
                             Session["email"] = reader["EMAIL"].ToString();
-                            var userEmail = Session["email"].ToString();
-                            Response.Write("<script>alert(userEmail)</script>");
-                            Response.Redirect("ListAllProducts");
+                            Response.Redirect("AdminPage");
                         }
                         else
                         {
@@ -116,7 +110,172 @@ namespace eGamersShop.Controllers
             return View();
         }
 
-        
+        public ActionResult AdminRegister()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AdminRegister(FormCollection collection)
+        {
+            //var data = new List<object>();
+            var lastname = Request["txtLastname"];
+            var firstname = Request["txtFirstname"];
+            var email = Request["txtEmail"];
+            var username = Request["txtUsername"];
+            var password = Request["txtPassword"];
+
+
+            //add try catch
+            //add insert sql command
+            //get selected value for role
+
+            try
+            {
+                using (var db = new SqlConnection(connDB))
+                {
+                    db.Open();
+                    using (var cmd = db.CreateCommand())
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.CommandText = "SELECT * FROM ADMIN WHERE USERNAME = '" + username + "' OR EMAIL = '" + email + "' ";
+                        SqlDataReader rd = cmd.ExecuteReader();
+                        if (rd.HasRows)
+                        {
+                            Response.Write("<script>alert('This email is already registered!')</script>");
+                            rd.Close();
+                        }
+                        else
+                        {
+                            rd.Close();
+                            cmd.CommandText = "INSERT INTO ADMIN (LASTNAME, FIRSTNAME, EMAIL, USERNAME, PASSWORD)"
+                                + " VALUES ("
+                                + " @LNAME,"
+                                + " @FNAME,"
+                                + " @EMAIL,"
+                                + " @USERNAME,"
+                                + " @PSWD)";
+                            cmd.Parameters.AddWithValue("@LNAME", lastname);
+                            cmd.Parameters.AddWithValue("@FNAME", firstname);
+                            cmd.Parameters.AddWithValue("@EMAIL", email);
+                            cmd.Parameters.AddWithValue("@USERNAME", username);
+                            cmd.Parameters.AddWithValue("@PSWD", password);
+                            var ctr = cmd.ExecuteNonQuery();
+
+                            if (ctr > 0)
+                            {
+                                Response.Write("<script>alert('Registered Successfully!')</script>");
+                                Response.Redirect("LogIn");
+                            }
+                            else
+                            {
+                                Response.Write("<script>alert('Cannot create your account. ')</script>");
+                            }
+
+                        }
+
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>alert('Sorry, something went wrong.')</script>");
+                Response.Write(ex.Message);
+            }
+
+            return View();
+        }
+
+        public ActionResult AdminPage()
+        {
+            if (Session["email"] != null)
+            {
+                return RedirectToAction("AdminLogin", "Home", new { email = Session["email"].ToString() });
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+        /*   END OF ADMIN METHODS    */
+
+
+
+        /*   USER/CUSTOMER METHODS  REGISTRATION  */
+        public ActionResult LogIn()
+        {
+
+
+            if (Session["email"] != null)
+            {
+                return RedirectToAction("Registration", "Home", new { email = Session["email"].ToString() });
+            }
+            else
+            {
+                return View();
+            }
+
+
+            //return View();
+
+        }
+
+        [HttpPost]
+        public ActionResult LogIn(FormCollection collection)
+        {
+            var email = Request["txtEmail"];
+            var password = Request["txtPassword"];
+
+            try
+            {
+
+                using (var db = new SqlConnection(connDB))
+                {
+                    db.Open();
+                    using (var cmd = db.CreateCommand())
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.CommandText = "SELECT * FROM USERTBL WHERE EMAIL = '" + email + "' AND PASSWORD = '" + password + "' ";
+                        SqlDataReader reader = cmd.ExecuteReader();
+                        if (reader.Read())
+                        {
+
+
+                            Session["email"] = reader["EMAIL"].ToString();
+
+                            if (Session["email"] != null)
+                            {
+                                return RedirectToAction("ListAllProducts", "Home", new { email = Session["email"].ToString() });
+                            }
+                            else
+                            {
+                                return View();
+                            }
+
+                            //Response.Redirect("ListAllProducts");
+                        }
+                        else
+                        {
+                            Response.Write("<script>alert('Invalid Credentials!')</script>");
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script>alert('Something went wrong...')</script>");
+                Response.Write(ex);
+            }
+            return View();
+        }
+
+        public ActionResult Registration()
+        {
+            return View();
+        }
 
         [HttpPost]
         public ActionResult Registration(FormCollection collection)
@@ -183,7 +342,7 @@ namespace eGamersShop.Controllers
                             {
                                 Response.Write("<script>alert('Cannot create your account. ')</script>");
                             }
-                                
+
                         }
 
 
@@ -198,9 +357,12 @@ namespace eGamersShop.Controllers
 
             return View();
         }
+        /*  END OF USER/CUSTOMER METHODS    */
 
 
-        //Product entry method
+
+
+        //PRODUCT ENTRY
         [HttpPost]
         public ActionResult ProductEntry(FormCollection collection, HttpPostedFileBase uploadImg)
         {
@@ -327,9 +489,25 @@ namespace eGamersShop.Controllers
             var onhand = 0;
             var date = DateTime.Now.ToShortDateString();
             var price = "";
-            string email = Session["email"].ToString();
+            //string email = Session["email"].ToString();
             var itmimg = "";
             var itemname = "";
+
+            //try
+            //{
+            //    if (Session["email"] != null)
+            //    {
+            //       //return RedirectToAction("Index", "Home", new { email = Session["email"].ToString() });
+            //    }
+            //    else
+            //    {
+            //        return View();
+            //    }
+            //}
+            //catch (Exception)
+            //{
+
+            //}
 
             using (var db1 = new SqlConnection(connDB))
             {
@@ -351,7 +529,8 @@ namespace eGamersShop.Controllers
                 db1.Close();
 
             }
-            //Try to add the information in DB
+
+
             using (var db2 = new SqlConnection(connDB))
             {
                 db2.Open();
@@ -359,7 +538,7 @@ namespace eGamersShop.Controllers
                 {
                     int newOnhand = onhand - qty;
                     cmd2.CommandType = CommandType.Text;
-                    cmd2.CommandText = "SELECT * FROM ORDERTBL WHERE ITMNO = '" + itmcode + "'";
+                    cmd2.CommandText = "SELECT * FROM ORDERTBL2 WHERE ITMNO ='" + itmcode + "'";
                     SqlDataReader reader = cmd2.ExecuteReader();
                     if (reader.Read())
                     {
@@ -374,7 +553,7 @@ namespace eGamersShop.Controllers
                                 using (var cmd3 = db3.CreateCommand())
                                 {
                                     cmd3.CommandType = CommandType.Text;
-                                    cmd3.CommandText = "UPDATE ORDERTBL SET ITMQTY = '" + finalQty + "' WHERE ITMNO = '" + itmcode + "' ";
+                                    cmd3.CommandText = "UPDATE ORDERTBL2 SET ITMQTY = '" + finalQty + "' WHERE ITMNO = '" + itmcode + "' ";
                                     var ctr = cmd3.ExecuteNonQuery();
                                     if (ctr >= 1)
                                     {
@@ -405,22 +584,22 @@ namespace eGamersShop.Controllers
                             db3.Open();
                             using (var cmd = db3.CreateCommand())
                             {
-                                cmd.CommandText = "INSERT INTO ORDERTBL (ITEMCODE, ITEMQTY, ITEMPRICE, EMAIL, DTADDED, ITEMIMG)"
+                                cmd.CommandText = "INSERT INTO ORDERTBL2 (ITMNO, ITMQTY, ITMPRICE, ITMIMG, DTADDED, EMAIL)"
                                                                             + " VALUES ("
                                                                             + " @ITMNO,"
                                                                             + " @ITMQTY,"
                                                                             + " @ITMPRICE,"
-                                                                            + " @EMAIL,"
+                                                                            + " @ITEMIMAGE,"
                                                                             + " @DTADDED,"
-                                                                            + " @ITEMIMAGE)";
+                                                                            + " @EMAIL)";
                                 cmd.Parameters.AddWithValue("@ITMNO", itmcode);
                                 cmd.Parameters.AddWithValue("@ITMQTY", qty);
                                 cmd.Parameters.AddWithValue("@ITMPRICE", price);
-                                cmd.Parameters.AddWithValue("@EMAIL", email);
-                                cmd.Parameters.AddWithValue("@DTADDED", date);
                                 cmd.Parameters.AddWithValue("@ITEMIMAGE", itmimg);
+                                cmd.Parameters.AddWithValue("@DTADDED", date);
+                                cmd.Parameters.AddWithValue("@EMAIL", Session["email"]);
                                 var ctr = cmd.ExecuteNonQuery();
-                                if (ctr >= 1)
+                                if (ctr > 0)
                                 {
                                     data.Add(new
                                     {
@@ -460,7 +639,7 @@ namespace eGamersShop.Controllers
                 using (var cmd1 = db.CreateCommand())
                 {
                     cmd1.CommandType = CommandType.Text; //DELETE FROM table_name WHERE condition;
-                    cmd1.CommandText = "DELETE FROM ORDERTBL WHERE ITMNO ='" + itmnum + "'";
+                    cmd1.CommandText = "DELETE FROM ORDERTBL2 WHERE ITMNO ='" + itmnum + "'";
                     cmd1.ExecuteReader();
 
                 }
@@ -487,8 +666,10 @@ namespace eGamersShop.Controllers
             db.Open();
             var cmd1 = db.CreateCommand();
 
+            //ITMQTY -> ORDERTBL2
+            //ITMONHAND, ITMNUM -> ITMTBL
             cmd1.CommandType = CommandType.Text;
-            cmd1.CommandText = "SELECT ITMQTY, ITMONHAND, ITMNUM  FROM ORDERTBL, ITMTBL WHERE ORDERTBL.ITMNO = ITMTBL.ITMNUM ";
+            cmd1.CommandText = "SELECT ITMQTY, ITMONHAND, ITMNUM  FROM ORDERTBL2, ITMTBL WHERE ORDERTBL2.ITMNO = ITMTBL.ITMNUM ";
             var reader = cmd1.ExecuteReader();
 
             if (reader.HasRows)
@@ -522,6 +703,7 @@ namespace eGamersShop.Controllers
                 {
                     var itmNo = arlist1[i];
                     var newOnhand = arlist1[i + 1];
+
                     //3rd DB UPDATE(ONHAND) VALUE FROM CART(DB1)
                     using (var db3 = new SqlConnection(connDB))
                     {
@@ -549,7 +731,7 @@ namespace eGamersShop.Controllers
                 using (var cmd = db4.CreateCommand())
                 {
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "DELETE FROM ORDERTBL";
+                    cmd.CommandText = "DELETE FROM ORDERTBL2";
                     SqlDataReader reader3 = cmd.ExecuteReader();
                     if (reader3.Read())
                     {
@@ -566,15 +748,6 @@ namespace eGamersShop.Controllers
             return Json(deleted, JsonRequestBehavior.AllowGet);
 
         }
-
-
-
-
-
-
-
-
-
 
 
         public ActionResult SearchItem()
@@ -617,6 +790,7 @@ namespace eGamersShop.Controllers
             var itmcode = Request["itemcode"];
             var itmdesc = Request["itemdesc"];
             var itmprice = Request["itemprice"];
+            var itemqty = Request["itmonhand"];
 
             using (var db = new SqlConnection(connDB))
             {
@@ -627,7 +801,8 @@ namespace eGamersShop.Controllers
                     cmd.CommandText = "UPDATE ITMTBL SET "
                         + " ITMNAME ='" + itmdesc + "',"
                         + " ITMPRICE ='" + itmprice + "'"
-                        + " WHERE ITMNUM='" + itmcode + "'";
+                        + " ITMONHAND ='" + itemqty + "'"
+                        + " WHERE ITMNUM ='" + itmcode + "'";
                     var ctr = cmd.ExecuteNonQuery();
                     if (ctr > 0)
                     {
