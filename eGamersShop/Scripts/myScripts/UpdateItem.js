@@ -34,6 +34,7 @@ $().ready(function () {
     //for edit button
     $("#btnEdit").click(function () {
         $("#btnEdit").hide();
+        $("#btnDelete").hide();
         $("#btnUpdate").show();
         $("#itmcde").attr("disabled", true);
         $("#itmdesc").removeAttr("disabled");
@@ -50,6 +51,7 @@ $().ready(function () {
         $.post("../Home/DeleteItem", {
             itemcode: itemcode
         }, function (res) {
+            $("#btnUpdate").hide();
             //if (res[0].mess == 0) {
             //    alert('Delete this item?');
             //    alert("Item successfully deleted!");
@@ -80,6 +82,7 @@ $().ready(function () {
             if (res[0].mess == 0) {
                 alert("Successfully Updated!");
                 $("#btnUpdate").hide();
+                $("#btnDelete").hide();
                 $("#itmcde").removeAttr("disabled").val();
                 $("#itmdesc").attr("disabled", true).val();
                 $("#itmprice").attr("disabled", true).val();

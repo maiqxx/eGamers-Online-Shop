@@ -235,6 +235,7 @@
     <Content Include="Views\Home\AdminLogin.cshtml" />
     <Content Include="Views\Home\AdminPage.cshtml" />
     <Content Include="Views\Home\Ewallet.cshtml" />
+    <Content Include="Views\Home\Success.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />

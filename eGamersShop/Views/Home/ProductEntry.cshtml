@@ -7,10 +7,10 @@
     <link rel="stylesheet" href="~/Content/w3/w3.css" />
     <style type="text/css">
         .con {
-            width: 50%;
+            width: 75%;
             padding: 10px;
-            height: 900px;
-            background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+            height: auto;
+            background-image: linear-gradient(to right top, #845ec2, #7789db, #81aee7, #a6ceec, #daebf2);
             justify-content: center;
         }
 
@@ -29,8 +29,8 @@
 
 
         <div style="height:1000px;" class="center-content-div">
-            <div class="con w3-panel w3-round-xlarge">
-                <div style="margin-left:130px;">
+            <div class="con w3-panel w3-round-xlarge center-content-div">
+                <div>
                     <br />
                     <br />
                     Product Number/Code <br />
@@ -52,7 +52,7 @@
                     Date<br />
                     <input class="w3-input w3-border w3-round" type="text" id="datepicker" name="datepicker" value="@DateTime.Now.ToShortDateString()" />
                     <br />
-                    <input class="btn btn-primary" id="btnSaveProd" style="width: 280px; color:white; " type="submit" value="Save" /><br />
+                    <input class="btn btn-primary shadow w3-round-xxlarge" id="btnSaveProd" style="width: 280px; color:white; " type="submit" value="Save" /><br />
 
                 </div>
 

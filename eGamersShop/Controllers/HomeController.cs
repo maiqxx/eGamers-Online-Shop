@@ -63,11 +63,13 @@ namespace eGamersShop.Controllers
             return View();
         }
 
+        [HttpGet]
         public ActionResult LogOut()
         {
-            Session.Abandon();
-            return RedirectToAction("LogIn", "Home");
 
+             Session.Abandon();
+            //Session.Remove("email");
+            return RedirectToAction("Index", "Home");
         }
 
 
@@ -77,7 +79,7 @@ namespace eGamersShop.Controllers
 
             if (Session["email"] != null)
             {
-                return RedirectToAction("AdminRegister", "Home", new { email = Session["email"].ToString() });
+                return RedirectToAction("AdminPage", "Home", new { email = Session["email"].ToString() });
             }
             else
             {
@@ -223,7 +225,7 @@ namespace eGamersShop.Controllers
 
             if (Session["email"] != null)
             {
-                return RedirectToAction("Registration", "Home", new { email = Session["email"].ToString() });
+                return RedirectToAction("ListAllProducts", "Home", new { email = Session["email"].ToString() });
             }
             else
             {
@@ -415,6 +417,7 @@ namespace eGamersShop.Controllers
                             if (ctr >= 1)
                             {
                                 Response.Write("<script>alert('Data Save')</script>");
+                                Response.Redirect("AdminPage");
                             }
                             else
                                 Response.Write("<script>alert('Data Not Save')</script>");

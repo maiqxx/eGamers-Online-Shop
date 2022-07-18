@@ -12,18 +12,26 @@
 @using System.Drawing.Imaging;
 @using System.Web.SessionState;
 
+
 @{
 
     ViewBag.Title = "ListAllProducts";
 
 }
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
+@if (Session["email"] != null)
+{
+    <li><p style="color: #fff; margin-top: 15px;">Hello @Session["email"]</p></li>
 
-@*<h3>
-        @Session["email"].ToString()
-    </h3>*@
+}
+else
+{
+    <li>@Html.ActionLink("LogIn", "LogIn", "Home")</li>
+}
+
 
 
 
@@ -37,8 +45,8 @@
         </div>*@
 
     <div style="float: right;">
-        <a href="@Url.Action("Index","Home")" class="btn btn-link btn-sm" role="button">Log Out</a>
-        </div>
+        <a href="@Url.Action("LogOut", "Home")" class="btn btn-link btn-sm" role="button">Log Out</a>
+    </div>
 
     string connDB = WebConfigurationManager.ConnectionStrings["connDB"].ConnectionString;
 
@@ -160,14 +168,15 @@
 
                     if (res[0].exist) {
                         /*alert("Item Added!");*/
-                        Swal.fire('Added to cart.')
+                        Swal.fire('Added to cart!')
                     } else {
 
                     }
 
                     if (res[0].added) {
                         /*alert("Succesfully Added!");*/
-                        Swal.fire('Added to cart!')
+                        Swal.fire('Item added to cart!')
+
                     }
 
 
