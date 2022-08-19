@@ -24,12 +24,13 @@
 
 @if (Session["email"] != null)
 {
-    <li><p style="color: #fff; margin-top: 15px;">Hello @Session["email"]</p></li>
+    
+    <p style="color: #fff; margin-top: 15px;" hidden>Hello @Session["email"]</p>
 
 }
 else
 {
-    <li>@Html.ActionLink("LogIn", "LogIn", "Home")</li>
+    <p hidden>@Html.ActionLink("LogIn", "LogIn", "Home")</p>
 }
 
 
@@ -159,28 +160,33 @@ else
 
             if (parseInt(qty) <= parseInt(onhand)) {
 
-                $.post("../Home/Cart", {
-                    itmnum: itmnum,
-                    qty: qty,
-                    name: name
-                }, function (res) {
+                if (parseInt(qty) <= 0) {
+                    $("#txtqty").attr("disabled", "disabled");
+                } else {
+                    $.post("../Home/Cart", {
+                        itmnum: itmnum,
+                        qty: qty,
+                        name: name
+                    }, function (res) {
 
 
-                    if (res[0].exist) {
-                        /*alert("Item Added!");*/
-                        Swal.fire('Added to cart!')
-                    } else {
+                        if (res[0].exist) {
+                            /*alert("Item Added!");*/
+                            Swal.fire('Added to cart!')
+                        } else {
 
-                    }
+                        }
 
-                    if (res[0].added) {
-                        /*alert("Succesfully Added!");*/
-                        Swal.fire('Item added to cart!')
+                        if (res[0].added) {
+                            /*alert("Succesfully Added!");*/
+                            Swal.fire('Item added to cart!')
 
-                    }
+                        }
+
+                    });
+                }
 
 
-                });
             } else {
                 alert('Insufficient Stocks!');
             }

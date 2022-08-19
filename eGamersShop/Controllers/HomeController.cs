@@ -909,7 +909,7 @@ namespace eGamersShop.Controllers
                     using (var cmd = db.CreateCommand())
                     {
                         cmd.CommandType = CommandType.Text;
-                        cmd.CommandText = "UPDATE USERTBL SET MONEY='" + currBalance + "' WHERE EMAIL='" + email + "'";
+                        cmd.CommandText = "UPDATE USERTBL SET MONEY ='" + currBalance + "' WHERE EMAIL ='" + email + "'";
                         var ctr = cmd.ExecuteNonQuery();
                         if (ctr >= 1)
                         {
@@ -918,7 +918,7 @@ namespace eGamersShop.Controllers
                         }
                         else
                         {
-                            Response.Write("<script>alert('Plaese try again...') </ script >");
+                            Response.Write("<script>alert('Please try again...') </ script >");
                         }
                     }
                 }
