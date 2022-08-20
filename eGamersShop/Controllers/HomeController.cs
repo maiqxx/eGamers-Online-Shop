@@ -20,49 +20,55 @@ namespace eGamersShop.Controllers
     {
         string connDB = WebConfigurationManager.ConnectionStrings["connDB"].ConnectionString;
 
-
+        //Index View/Display
         public ActionResult Index()
         {
             return View();
-
         }
 
+        //About View/Display
         public ActionResult About()
         {
             return View();
-
         }
+
+        //Contact View/Display
         public ActionResult Contact()
         {
             return View();
-
         }
 
+        //Product Entry(Admin) View/Display
         public ActionResult ProductEntry()
         {
             return View();
         }
 
+        //Update Product(Admin) View/Display
         public ActionResult UpdateProduct()
         {
             return View();
         }
 
+        //List Of All Products View/Display
         public ActionResult ListAllProducts()
         {
             return View();
         }
 
+        //My Cart(Customer) View/Display
         public ActionResult MyCart()
         {
             return View();
         }
 
+        //Payment(Customer) View/Display
         public ActionResult Payment()
         {
             return View();
         }
 
+        //User Log out
         [HttpGet]
         public ActionResult LogOut()
         {
@@ -74,6 +80,8 @@ namespace eGamersShop.Controllers
 
 
         /*   ADMIN METHODS REGISTRATIONS  */
+
+        //Admin Login Session
         public ActionResult AdminLogin()
         {
 
@@ -87,6 +95,7 @@ namespace eGamersShop.Controllers
             }
         }
 
+        //Admin Login
         [HttpPost]
         public ActionResult AdminLogin(FormCollection collection)
         {
@@ -125,11 +134,13 @@ namespace eGamersShop.Controllers
             return View();
         }
 
+        //Admin Registration View/Display
         public ActionResult AdminRegister()
         {
             return View();
         }
 
+        //Admin Registration Method
         [HttpPost]
         public ActionResult AdminRegister(FormCollection collection)
         {
@@ -202,6 +213,7 @@ namespace eGamersShop.Controllers
             return View();
         }
 
+        //Admin Page Redirect Method
         public ActionResult AdminPage()
         {
             if (Session["email"] != null)
@@ -219,10 +231,9 @@ namespace eGamersShop.Controllers
 
 
         /*   USER/CUSTOMER METHODS  REGISTRATION  */
+        //Customer Login Session
         public ActionResult LogIn()
         {
-
-
             if (Session["email"] != null)
             {
                 return RedirectToAction("ListAllProducts", "Home", new { email = Session["email"].ToString() });
@@ -231,12 +242,9 @@ namespace eGamersShop.Controllers
             {
                 return View();
             }
-
-
-            //return View();
-
         }
 
+        //Customer Login
         [HttpPost]
         public ActionResult LogIn(FormCollection collection)
         {
@@ -245,7 +253,6 @@ namespace eGamersShop.Controllers
 
             try
             {
-
                 using (var db = new SqlConnection(connDB))
                 {
                     db.Open();
@@ -257,18 +264,17 @@ namespace eGamersShop.Controllers
                         if (reader.Read())
                         {
 
-
                             Session["email"] = reader["EMAIL"].ToString();
 
                             if (Session["email"] != null)
                             {
+                                //if credentials are correct, customer will be redirected to ListAllProduct view
                                 return RedirectToAction("ListAllProducts", "Home", new { email = Session["email"].ToString() });
                             }
                             else
                             {
                                 return View();
                             }
-
                             //Response.Redirect("ListAllProducts");
                         }
                         else
@@ -287,11 +293,13 @@ namespace eGamersShop.Controllers
             return View();
         }
 
+        //Customer Registration View/Display
         public ActionResult Registration()
         {
             return View();
         }
 
+        //Customer Registration Method
         [HttpPost]
         public ActionResult Registration(FormCollection collection)
         {
@@ -352,10 +360,7 @@ namespace eGamersShop.Controllers
                             {
                                 Response.Write("<script>alert('Cannot create your account. ')</script>");
                             }
-
                         }
-
-
                     }
                 }
             }
@@ -370,7 +375,7 @@ namespace eGamersShop.Controllers
         /*  END OF USER/CUSTOMER METHODS    */
 
 
-        //PRODUCT ENTRY
+        //Product Entry Method (Admin)
         [HttpPost]
         public ActionResult ProductEntry(FormCollection collection, HttpPostedFileBase uploadImg)
         {
@@ -435,7 +440,7 @@ namespace eGamersShop.Controllers
             return View();
         }
 
-        //Method to make an incremental item code during product entry
+        //Method to make an auto-generated item code during product entry
         public ActionResult getItemCode()
         {
             var data = new List<object>();
@@ -460,7 +465,7 @@ namespace eGamersShop.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
-        //Method to display or show the image that are saved in C:\\Uploads
+        //Method to display or show the image that are saved in C:\\Uploads folder from the local disk
         [HttpGet]
         public FileResult Image(string filename)
         {
@@ -473,7 +478,7 @@ namespace eGamersShop.Controllers
                 filepath = Path.Combine(folder, filename);
                 if (!System.IO.File.Exists(filepath))
                 {
-                    //image not found here
+                    //image not found
                 }
             }
             catch (Exception) { 
@@ -488,7 +493,7 @@ namespace eGamersShop.Controllers
         }
 
 
-        //Method/button for add to cart from ListAllProducts.cshtml
+        //Add to Cart Method(Customer)
         public ActionResult Cart()
         {
             var data = new List<object>();
@@ -618,7 +623,8 @@ namespace eGamersShop.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
-
+        //RemoveCart() method for removing item from the cart
+        //before customer purchase the item
         public ActionResult RemoveCart()
         {
 
@@ -635,26 +641,20 @@ namespace eGamersShop.Controllers
                     cmd1.CommandType = CommandType.Text; //DELETE FROM table_name WHERE condition;
                     cmd1.CommandText = "DELETE FROM ORDERTBL2 WHERE ITMNO ='" + itmnum + "'";
                     cmd1.ExecuteReader();
-
                 }
                 db.Close();
-
             }
-
-
             return Json(itmnum, JsonRequestBehavior.AllowGet);
         }
 
+        //Payment method(Customer)
         public ActionResult Pay()
         {
-
             int cartNum = 0;
             var arlist1 = new ArrayList();
             bool updated = false;
 
-
-
-            ////1st DB GET CART VALUE (ITMNUM, QTY)
+            //1st DB GET CART VALUE (ITMNUM, QTY)
             var db = new SqlConnection(connDB);
 
             db.Open();
@@ -670,8 +670,6 @@ namespace eGamersShop.Controllers
             {
                 while (reader.Read())
                 {
-
-
                     var itm = reader["ITMNUM"];
                     string itmnum = itm.ToString();
                     int onhand = Convert.ToInt32(reader["ITMONHAND"]);
@@ -682,16 +680,13 @@ namespace eGamersShop.Controllers
                     {
                          itm, newOnhnand
                     };
-
                     arlist1.AddRange(arlist2);
-
                 }
             }
 
 
             for (int i = 0; i < arlist1.Count; i++)
             {
-
                 if (i % 2 == 0)
                 {
                     var itmNo = arlist1[i];
@@ -712,7 +707,6 @@ namespace eGamersShop.Controllers
                             }
                         }
                     }
-
                 }
                 updated = true;
             }
@@ -845,12 +839,10 @@ namespace eGamersShop.Controllers
                     }
                 }
             }
-
-
                 return Json(data, JsonRequestBehavior.AllowGet);
         }
 
-
+        //Search Item
         public ActionResult ItemSearch()
         {
             var data = new List<object>();
@@ -882,17 +874,18 @@ namespace eGamersShop.Controllers
                     }
                 }
             }
-
-
                 return Json(data, JsonRequestBehavior.AllowGet);
         }
 
+        //This method is for customer to be able to pay online
+        //Unfortunately, this has still to be continued/improved
         public ActionResult Ewallet()
         {
             return View();
 
         }
 
+        //Deposit method(Customer)
         public ActionResult Deposit()
         {
             var data = new List<object>();
@@ -928,8 +921,6 @@ namespace eGamersShop.Controllers
                 Response.Write("<script>alert('Plaese try again...') </ script >");
             }
             return Json(data, JsonRequestBehavior.AllowGet);
-
-
         }
 
     }
